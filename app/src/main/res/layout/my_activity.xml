@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <!--android:onClick="flipCard">-->
+
+
+    <FrameLayout
+        android:id="@+id/card_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<include layout="@layout/card_back" />-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="#f32bcc"
+            android:padding="16dp"
+            android:src="@drawable/rectangle"/>
+
+        <TextView
+            android:id="@+id/backcard_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="For all have sinned and fallen short of the glory of God"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:gravity="center"/>
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/card_front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <!--<include layout="@layout/card_front" />-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:tint="@color/cardFront"
+            android:padding="16dp"
+            android:src="@drawable/rectangle"/>
+
+        <TextView
+            android:id="@+id/frontcard_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Romans 3:23"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:gravity="center"/>
+
+    </FrameLayout>
+
+
+</FrameLayout>
