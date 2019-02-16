@@ -9,6 +9,9 @@
     <color name="black">#000000</color>
     <color name="gray">#666666</color>
     <color name="light_gray">#f1f1f1</color>
+    <color name="text_gray">#999999</color>
+    <color name="yellow">#F7EA00</color>
+    <color name="gold">#F9A602</color>
 
 
 </resources>

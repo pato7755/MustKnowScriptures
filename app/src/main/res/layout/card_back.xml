@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,6 +22,14 @@
         android:padding="15dp"
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center"/>
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription=""
+        android:baselineAlignBottom="true"
+
+        android:src="@drawable/ic_action_audio"/>
 
 
 </FrameLayout>

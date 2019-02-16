@@ -1,9 +1,9 @@
 package com.udolgc.mustknowscriptures;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -15,16 +15,10 @@ public class SplashScreen extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splashscreen);
 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		titleTextView = (TextView) findViewById(R.id.title);
-
-		Typeface regularText = Typeface.createFromAsset(getAssets(), "HelveticaRegular.otf");
-		Typeface mediumText = Typeface.createFromAsset(getAssets(), "HelveticaMedium.otf");
-
-		titleTextView.setTypeface(regularText);
+		setContentView(R.layout.splashscreen);
 
 		Thread timer = new Thread() {
 			public void run() {

@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/txt"
+        android:id="@+id/txt2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"

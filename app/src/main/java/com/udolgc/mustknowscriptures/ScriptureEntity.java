@@ -18,6 +18,13 @@ public class ScriptureEntity {
     @ColumnInfo(name = "scripture")
     private String scripture;
 
+    @ColumnInfo(name = "favourite")
+    private String favourite;
+
+//    private boolean flipped = false;
+
+    public boolean isFlipped;
+
     public ScriptureEntity(int id, String title, String scripture) {
         this.id = id;
         this.title = title;
@@ -61,4 +68,20 @@ public class ScriptureEntity {
     public void setScripture(String scripture) {
         this.scripture = scripture;
     }
+
+    public String getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(String favourite) {
+        this.favourite = favourite;
+    }
+
+    //    public boolean isFlipped() {
+//        return flipped;
+//    }
+//
+//    public void setFlipped(boolean flipped) {
+//        this.flipped = flipped;
+//    }
 }

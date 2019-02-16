@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    
+  
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:icon="@drawable/ic_action_settings"-->
+        <!--android:title="@string/action_settings"-->
+        <!--blink:showAsAction="ifRoom"/>-->
+    
+    <item
+        android:id="@+id/action_shuffle"
+        android:orderInCategory="100"
+        android:title="@string/shuffle"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_shuffle"/>
+    
+     <!--<item
+        android:id="@+id/refresh"
+        android:icon="@drawable/refresh_btn"
+        android:orderInCategory="100"
+        android:title="@string/refresh"
+        />-->
+  
+    <!--<item android:id="@+id/action_search"
+          android:icon="@drawable/action_search"
+          android:title="@string/string_search"
+          blink:showAsAction="never"  />-->
+</menu>

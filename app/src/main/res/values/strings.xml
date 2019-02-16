@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">MustKnowScriptures</string>
     <string name="splash_title">Anagkazo Must Know Scriptures</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="about">About</string>
+    <string name="about_app_title">About App</string>
+    <string name="about_app">In this unique app you will find key Bible verses that you should memorise.\nJesus memorised scriptures - so must we! Let us make it our aim to memorise scripture and develop a good and improved character.
+    We are followers of Christ!</string>
+    <string name="developer_name">Developed by: Patrick Essiam</string>
+    <string name="developer_mail">Email: pat.essiam701@gmail.com</string>
+    <string name="developer_number">Number: 233 54 352 8772</string>
+    <string name="old_testament">Old Testament</string>
+    <string name="new_testament">New Testament</string>
+    <string name="others">Others</string>
 </resources>

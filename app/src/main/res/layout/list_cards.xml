@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.wajahatkarim3.easyflipview.EasyFlipView
+        android:id="@+id/flip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flipDuration="400"
+        app:flipEnabled="true"
+        app:flipOnTouch="false"
+        app:flipType="horizontal"
+        >
+
+        <!-- Back Layout Goes Here -->
+        <!--<include layout="@layout/card_back"/>-->
+        <FrameLayout
+            android:id="@+id/back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tint="@color/cardFront"
+                android:padding="10dp"
+                android:src="@drawable/rectangle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/backcard_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="For all have sinned and fallen short of the glory of God"
+                    android:textColor="@color/white"
+                    android:padding="15dp"
+                    style="@style/Base.TextAppearance.AppCompat.Display1"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:padding="10dp"
+                    android:weightSum="10">
+
+                    <ImageButton
+                        android:id="@+id/audio_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:contentDescription=""
+                        android:layout_marginStart="2dp"
+                        android:layout_marginLeft="25dp"
+                        android:padding="5dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_action_audio" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="6"/>
+
+                    <ImageButton
+                        android:id="@+id/fav_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:contentDescription=" "
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_star"
+                        android:background="@android:color/transparent"
+                        android:layout_weight="2"
+                        />
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+
+
+            <!--android:src="@drawable/ic_action_audio"/>-->
+
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tint="@color/cardFront"
+                android:padding="16dp"
+                android:src="@drawable/rectangle"/>
+
+            <TextView
+                android:id="@+id/frontcard_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Romans 3:23"
+                android:textColor="@color/white"
+                android:padding="15dp"
+                style="@style/Base.TextAppearance.AppCompat.Display1"
+                android:gravity="center"/>
+
+        </FrameLayout>
+
+    </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+
+
+
+</LinearLayout>
