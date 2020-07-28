@@ -53,8 +53,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getTitle()); // Contact Name
-        values.put(KEY_SCRIPTURE, contact.getScripture()); // Contact Phone
+        values.put(KEY_NAME, contact.getTitle());
+        values.put(KEY_SCRIPTURE, contact.getScripture());
 
         // Inserting Row
         db.insert(SCRIPTURE_TABLE, null, values);
