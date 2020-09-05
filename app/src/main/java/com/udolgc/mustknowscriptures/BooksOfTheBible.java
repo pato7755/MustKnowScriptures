@@ -263,7 +263,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
 
     public void insertScriptures() {
-        dbHandler.addScripture(new ScriptureEntity());
+//        dbHandler.addScripture(new ScriptureEntity());
 
         List<ScriptureEntity> valuesList = new ArrayList<>();
 

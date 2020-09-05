@@ -12,6 +12,7 @@
     <color name="text_gray">#999999</color>
     <color name="yellow">#F7EA00</color>
     <color name="gold">#F9A602</color>
+    <color name="transparent">#00000000</color>
 
 
 </resources>

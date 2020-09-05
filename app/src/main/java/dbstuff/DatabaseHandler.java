@@ -48,13 +48,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // code to add the new contact
-    public void addScripture(ScriptureEntity contact) {
+    // code to add the new scripture
+    public void addScripture(ScriptureEntity scripture) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getTitle());
-        values.put(KEY_SCRIPTURE, contact.getScripture());
+        values.put(KEY_NAME, scripture.getTitle());
+        values.put(KEY_SCRIPTURE, scripture.getScripture());
+        values.put(KEY_FAV, "");
 
         // Inserting Row
         db.insert(SCRIPTURE_TABLE, null, values);
@@ -70,6 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             for (ScriptureEntity scripture : list) {
                 values.put(KEY_NAME, scripture.getTitle());
                 values.put(KEY_SCRIPTURE, scripture.getScripture());
+                values.put(KEY_FAV, "");
                 db.insert(SCRIPTURE_TABLE, null, values);
             }
             db.setTransactionSuccessful();
@@ -85,7 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(SCRIPTURE_TABLE,
-                new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE},
+                new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE, KEY_FAV},
                 KEY_FAV + " =?",
                 new String[]{"YES"},
                 null,
@@ -100,6 +102,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scripture.setId(Integer.parseInt(cursor.getString(0)));
                 scripture.setTitle(cursor.getString(1));
                 scripture.setScripture(cursor.getString(2));
+                scripture.setFavourite(cursor.getString(3));
 //                scripture.setScripture(cursor.getString(3));
                 // Adding scripture to list
                 scriptureList.add(scripture);
@@ -117,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(SCRIPTURE_TABLE,
-                new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE},
+                new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE, KEY_FAV},
                 KEY_NAME + " LIKE?",
                 new String[]{book + "%"},
                 null,
@@ -132,6 +135,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scripture.setId(Integer.parseInt(cursor.getString(0)));
                 scripture.setTitle(cursor.getString(1));
                 scripture.setScripture(cursor.getString(2));
+                scripture.setFavourite(cursor.getString(3));
                 // Adding scripture to list
                 scriptureList.add(scripture);
             } while (cursor.moveToNext());
@@ -144,7 +148,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // code to get all scriptures in a list view
     public List<ScriptureEntity> getAllScriptures() {
-        List<ScriptureEntity> contactList = new ArrayList<ScriptureEntity>();
+        List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + SCRIPTURE_TABLE + " WHERE " + KEY_NAME + " IS NOT NULL";
 
@@ -154,21 +158,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                ScriptureEntity contact = new ScriptureEntity();
-                contact.setId(Integer.parseInt(cursor.getString(0)));
-                contact.setTitle(cursor.getString(1));
-                contact.setScripture(cursor.getString(2));
+                ScriptureEntity scripture = new ScriptureEntity();
+                scripture.setId(Integer.parseInt(cursor.getString(0)));
+                scripture.setTitle(cursor.getString(1));
+                scripture.setScripture(cursor.getString(2));
+                scripture.setFavourite(cursor.getString(3));
                 // Adding scripture to list
-                contactList.add(contact);
+                scriptureList.add(scripture);
             } while (cursor.moveToNext());
         }
 
-        // return contact list
-        return contactList;
+        // return scripture list
+        return scriptureList;
     }
 
 
-    // code to get all contacts in a list view
     public List<ScriptureEntity> deleteAllScriptures() {
         List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
         // Select All Query
@@ -189,7 +193,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // return contact list
+        // return scripture list
         return scriptureList;
     }
 
@@ -202,24 +206,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, scriptureEntity.getTitle());
         values.put(KEY_SCRIPTURE, scriptureEntity.getScripture());
         values.put(KEY_FAV, scriptureEntity.getFavourite());
-
-//        String sql = "UPDATE "+SCRIPTURE_TABLE +" SET " + KEY_FAV+ " = '" + "YES" + "' WHERE "+KEY_NAME+ " = "+title;
+        System.out.println("KEY_FAV value is " + values.getAsString(KEY_FAV));
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_FAV, "YES");
         return db.update(SCRIPTURE_TABLE, cv, KEY_NAME + "= ?", new String[]{title});
+    }
 
-        // updating row
-//        return db.update(SCRIPTURE_TABLE, values, KEY_ID + " = ?",
-//                new String[]{String.valueOf(scriptureEntity.getId())});
+    public int removeFavScripture(String title) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ScriptureEntity scriptureEntity = new ScriptureEntity();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, scriptureEntity.getTitle());
+        values.put(KEY_SCRIPTURE, scriptureEntity.getScripture());
+        values.put(KEY_FAV, scriptureEntity.getFavourite());
+
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_FAV, "");
+        return db.update(SCRIPTURE_TABLE, cv, KEY_NAME + "= ?", new String[]{title});
     }
 
 
     // Deleting single scripture
-    public void deleteScripture(ScriptureEntity contact) {
+    public void deleteScripture(ScriptureEntity scripture) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(SCRIPTURE_TABLE, KEY_ID + " = ?",
-                new String[]{String.valueOf(contact.getId())});
+                new String[]{String.valueOf(scripture.getId())});
         db.close();
     }
 

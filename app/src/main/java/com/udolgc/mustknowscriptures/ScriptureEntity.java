@@ -36,6 +36,12 @@ public class ScriptureEntity {
         this.scripture = scripture;
     }
 
+    public ScriptureEntity(String title, String scripture, String favourite) {
+        this.title = title;
+        this.scripture = scripture;
+        this.favourite = favourite;
+    }
+
     public ScriptureEntity(int id) {
         this.id = id;
     }

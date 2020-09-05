@@ -12,4 +12,6 @@
     <string name="old_testament">Old Testament</string>
     <string name="new_testament">New Testament</string>
     <string name="others">Others</string>
+    <string name="hint"> </string>
+    <string name="no_favourites">You haven\'t added any scripture to your Favourites</string>
 </resources>

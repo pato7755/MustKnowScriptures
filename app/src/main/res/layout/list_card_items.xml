@@ -14,8 +14,7 @@
         app:flipDuration="400"
         app:flipEnabled="true"
         app:flipOnTouch="false"
-        app:flipType="horizontal"
-        >
+        app:flipType="horizontal">
 
         <!-- Back Layout Goes Here -->
         <!--<include layout="@layout/card_back"/>-->
@@ -28,9 +27,10 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@color/cardFront"
                 android:padding="10dp"
-                android:src="@drawable/rectangle"/>
+                android:src="@drawable/rectangle"
+                android:tint="@color/cardFront" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -38,20 +38,20 @@
 
                 <TextView
                     android:id="@+id/backcard_textview"
+                    style="@style/Base.TextAppearance.AppCompat.Display1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="For all have sinned and fallen short of the glory of God"
-                    android:textColor="@color/white"
+                    android:gravity="center"
                     android:padding="15dp"
-                    style="@style/Base.TextAppearance.AppCompat.Display1"
-                    android:gravity="center"/>
+                    android:text="For all have sinned and fallen short of the glory of God"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
                     android:padding="10dp"
                     android:weightSum="10">
 
@@ -60,43 +60,50 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="2"
-                        android:contentDescription=""
-                        android:layout_marginStart="2dp"
+                        android:layout_marginStart="25dp"
                         android:layout_marginLeft="25dp"
-                        android:padding="5dp"
+                        android:layout_weight="2"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_action_audio" />
+                        android:contentDescription=""
+                        android:padding="5dp"
+                        android:src="@drawable/ic_play" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="6"/>
+                        android:layout_weight="6" />
 
                     <ImageButton
                         android:id="@+id/fav_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:contentDescription=" "
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="25dp"
                         android:layout_marginLeft="25dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_star"
-                        android:background="@android:color/transparent"
                         android:layout_weight="2"
-                        />
+                        android:background="@color/transparent"
+                        android:contentDescription=" "
+                        android:padding="5dp"
+                        android:src="@drawable/ic_star" />
+
+                    <ImageButton
+                        android:id="@+id/stop_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_weight="2"
+                        android:background="@android:color/transparent"
+                        android:contentDescription=" "
+                        android:padding="5dp"
+                        android:src="@drawable/ic_stop" />
 
                 </LinearLayout>
 
 
-
             </RelativeLayout>
 
-
-
-
-            <!--android:src="@drawable/ic_action_audio"/>-->
 
 
         </FrameLayout>
@@ -111,25 +118,24 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@color/cardFront"
                 android:padding="16dp"
-                android:src="@drawable/rectangle"/>
+                android:contentDescription=""
+                android:src="@drawable/rectangle"
+                android:tint="@color/cardFront" />
 
             <TextView
                 android:id="@+id/frontcard_textview"
+                style="@style/Base.TextAppearance.AppCompat.Display1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Romans 3:23"
-                android:textColor="@color/white"
+                android:gravity="center"
                 android:padding="15dp"
-                style="@style/Base.TextAppearance.AppCompat.Display1"
-                android:gravity="center"/>
+                android:text="Romans 3:23"
+                android:textColor="@color/white" />
 
         </FrameLayout>
 
     </com.wajahatkarim3.easyflipview.EasyFlipView>
-
-
 
 
 </LinearLayout>
