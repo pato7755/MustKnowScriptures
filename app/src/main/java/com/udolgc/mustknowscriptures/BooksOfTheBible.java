@@ -34,12 +34,12 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     String[] oldTestament = new String[]{
             "GEN", "EXO", "LEV", "NUM", "DEU",
-            "JOS", "JUDG", "RUT", "1SAM", "2SAM",
+            "JOS", /*"JUDG",*/ "RUT", "1SAM", "2SAM",
             "1KIN", "2KIN", "1CHR", "2CHR", "EZR",
             "NEH", "EST", "JOB", "PSA", "PRO",
             "ECC", "SONG", "ISA", "JER", "LAM",
             "EZE", "DAN", "HOS", "JOEL", "AMO",
-            "OBA", "JON", "MIC", "NAH", "HAB",
+            "OBA", "JON", "MIC", /*"NAH",*/ "HAB",
             "ZEP", "HAG", "ZEC", "MAL"
     };
 
