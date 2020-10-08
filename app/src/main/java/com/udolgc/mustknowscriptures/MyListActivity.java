@@ -189,7 +189,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
             System.out.println("above lollipop");
             try {
 //                textToSpeech.setPitch(f);
-                textToSpeech.setSpeechRate(0.85f);
+                textToSpeech.setSpeechRate(0.80f);
                 textToSpeech.speak(scriptureContent, TextToSpeech.QUEUE_FLUSH, params, "");
             } catch (Exception ex) {
                 System.out.println("speak exception: " + ex.getMessage());
@@ -198,7 +198,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
         } else {
             System.out.println("below lollipop");
 //            textToSpeech.setPitch(f);
-            textToSpeech.setSpeechRate(0.85f);
+            textToSpeech.setSpeechRate(0.80f);
             textToSpeech.speak(scriptureContent, TextToSpeech.QUEUE_FLUSH, null);
         }
     }

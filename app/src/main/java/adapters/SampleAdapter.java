@@ -81,18 +81,26 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final ScriptureEntity entity = list.get(holder.getAdapterPosition());
-        if (entity.getScripture().length() <= 140) {
 
-        } else if (entity.getScripture().length() > 140 && entity.getScripture().length() < 210) {
-            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Large);
-            holder.backTextView.setTextColor(Color.WHITE);
-        } else if (entity.getScripture().length() >= 210 && entity.getScripture().length() < 280) {
-            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Medium);
-            holder.backTextView.setTextColor(Color.WHITE);
-        } else if (entity.getScripture().length() >= 280) {
-            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Small);
-            holder.backTextView.setTextColor(Color.WHITE);
+        if (entity.getScripture().length() >= 400) {
+            System.out.println("entity.getScripture().length(): " + entity.getScripture().length());
+            System.out.println("scripture: " + entity.getTitle());
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(holder.backTextView, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+
         }
+//
+//
+//        else if (entity.getScripture().length() > 140 && entity.getScripture().length() < 210) {
+//            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Large);
+//            holder.backTextView.setTextColor(Color.WHITE);
+//        } else if (entity.getScripture().length() >= 210 && entity.getScripture().length() < 280) {
+//            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Medium);
+//            holder.backTextView.setTextColor(Color.WHITE);
+//        }
+//        else if (entity.getScripture().length() >= 280) {
+//            TextViewCompat.setTextAppearance(holder.backTextView, android.R.style.TextAppearance_Small);
+//            holder.backTextView.setTextColor(Color.WHITE);
+//        }
 
         holder.frontTextView.setText(entity.getTitle());
         holder.backTextView.setText(entity.getScripture());

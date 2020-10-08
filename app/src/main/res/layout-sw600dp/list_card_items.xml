@@ -38,22 +38,16 @@
 
                 <TextView
                     android:id="@+id/backcard_textview"
-                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    style="@style/Base.TextAppearance.AppCompat.Display1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_above="@id/linear_layout"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="22 And Jesus answering saith unto them, Have faith in God.\n
-                23 For verily I say unto you, That whosoever shall say unto this mountain, Be thou removed, and be thou cast into the sea; and shall not doubt in his heart, but shall believe that those things which he saith shall come to pass; he shall have whatsoever he saith.\n
-                24 Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.\n
-                25 And when ye stand praying, forgive, if ye have ought against any: that your Father also which is in heaven may forgive you your trespasses.\n
-                26 But if ye do not forgive, neither will your Father which is in heaven forgive your trespasses.\n"
+                    android:text="For all have sinned and fallen short of the glory of God"
                     android:textColor="@color/white" />
 
                 <LinearLayout
-                    android:id="@+id/linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -114,6 +108,7 @@
 
         </FrameLayout>
 
+
         <FrameLayout
             android:id="@+id/front"
             android:layout_width="match_parent"
@@ -130,7 +125,7 @@
 
             <TextView
                 android:id="@+id/frontcard_textview"
-                style="@style/Base.TextAppearance.AppCompat.Large"
+                style="@style/Base.TextAppearance.AppCompat.Display2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"

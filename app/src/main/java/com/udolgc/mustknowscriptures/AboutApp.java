@@ -1,12 +1,18 @@
 package com.udolgc.mustknowscriptures;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 
-public class AboutApp extends AppCompatActivity {
+public class AboutApp extends AppCompatActivity implements View.OnClickListener {
+
+	TextView websiteTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -14,27 +20,33 @@ public class AboutApp extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_app);
 
-//		Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar);
-//		setSupportActionBar(mActionBarToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		mbAccDetails = getIntent().getExtras().getString("accdetails").trim();
 
 		TextView aboutAppTV = (TextView) findViewById(R.id.about_app_textview);
+		websiteTextView = (TextView) findViewById(R.id.website_textview);
 		TextView devName = (TextView) findViewById(R.id.developer_name);
 		TextView devEmail = (TextView) findViewById(R.id.developer_email);
 		TextView devNumber = (TextView) findViewById(R.id.developer_number);
+
+		websiteTextView.setOnClickListener(this);
+
 
 
 	}
 
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.main, menu);
-//		menu.findItem(R.id.refresh).setVisible(false);
-//		return true;
-//	}
+	private void openWebPage(String url) {
+		try {
+			System.out.println("url: " + url);
+			Uri uri = Uri.parse(url);
+			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			System.out.println("error opening web page");
+			System.out.println(e.getMessage());
+		}
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -53,5 +65,12 @@ public class AboutApp extends AppCompatActivity {
 	}
 
 
+	@Override
+	public void onClick(View v) {
+		if(v.getId() == R.id.website_textview){
 
+			openWebPage(websiteTextView.getText().toString());
+
+		}
+	}
 }

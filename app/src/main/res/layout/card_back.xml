@@ -20,7 +20,6 @@
         android:text="For all have sinned and fallen short of the glory of God"
         android:textColor="@color/white"
         android:padding="15dp"
-        style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center"/>
 
     <ImageButton

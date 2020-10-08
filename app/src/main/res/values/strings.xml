@@ -4,11 +4,12 @@
     <string name="shuffle">Shuffle</string>
     <string name="about">About</string>
     <string name="about_app_title">About App</string>
-    <string name="about_app">In this unique app you will find key Bible verses that you should memorise.\nJesus memorised scriptures - so must we! Let us make it our aim to memorise scripture and develop a good and improved character.
-    We are followers of Christ!</string>
+    <string name="about_app">Bible memorisation is a great foundation of a great ministry.\n
+- Dag Heward-Mills.\n\n\nAll the scriptures in this app are from the Bible memorisation handbook by Dag Heward-Mills.\nFind out more about Dag Heward-Mills at </string>
+    <string name="website">http://www.daghewardmills.org</string>
     <string name="developer_name">Developed by: Patrick Essiam</string>
     <string name="developer_mail">Email: pat.essiam701@gmail.com</string>
-    <string name="developer_number">Number: 233 54 352 8772</string>
+    <string name="developer_number">Number: +233 54 352 8772 / +233 26 665 0132</string>
     <string name="old_testament">Old Testament</string>
     <string name="new_testament">New Testament</string>
     <string name="others">Others</string>

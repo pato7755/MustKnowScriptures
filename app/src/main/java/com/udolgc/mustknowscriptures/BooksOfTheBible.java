@@ -86,21 +86,21 @@ public class BooksOfTheBible extends AppCompatActivity {
         List<HashMap<String, String>> aList2 = new ArrayList<HashMap<String, String>>();
         List<HashMap<String, String>> aList3 = new ArrayList<HashMap<String, String>>();
 
-        for (int i = 0; i < oldTestament.length; i++) {
+        for (String s : oldTestament) {
             HashMap<String, String> hm = new HashMap<String, String>();
-            hm.put("txt", oldTestament[i]);
+            hm.put("txt", s);
             aList.add(hm);
         }
 
-        for (int i = 0; i < newTestament.length; i++) {
+        for (String s : newTestament) {
             HashMap<String, String> hm2 = new HashMap<String, String>();
-            hm2.put("txt2", newTestament[i]);
+            hm2.put("txt2", s);
             aList2.add(hm2);
         }
 
-        for (int i = 0; i < others.length; i++) {
+        for (String other : others) {
             HashMap<String, String> hm3 = new HashMap<String, String>();
-            hm3.put("txt3", others[i]);
+            hm3.put("txt3", other);
             aList3.add(hm3);
         }
 
@@ -306,6 +306,8 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("JOS 13:1", "Now Joshua was old and stricken in years; and the Lord said unto him, Thou art old and stricken in years, and there remaineth yet very much land to be possessed."));
         valuesList.add(new ScriptureEntity("JOS 24:15", "And if it seem evil unto you to serve the Lord, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the Lord."));
 
+        // JUDGES
+
         // RUTH
         valuesList.add(new ScriptureEntity("RUT 1:16-17", "16 And Ruth said, Intreat me not to leave thee, or to return from following after thee: for whither thou goest, I will go; and where thou lodgest, I will lodge: thy people shall be my people, and thy God my God:\n" +
                 "17 Where thou diest, will I die, and there will I be buried: the Lord do so to me, and more also, if ought but death part thee and me."));
@@ -348,14 +350,14 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("EST 4:14", "For if thou altogether holdest thy peace at this time, then shall there enlargement and deliverance arise to the Jews from another place; but thou and thy father's house shall be destroyed: and who knoweth whether thou art come to the kingdom for such a time as this?"));
 
         // JOB
-        valuesList.add(new ScriptureEntity("JOB 1:10", "Hast not thou made an hedge about_app him, and about_app his house, and about_app all that he hath on every side? thou hast blessed the work of his hands, and his substance is increased in the land."));
+        valuesList.add(new ScriptureEntity("JOB 1:10", "Hast not thou made an hedge about him, and about his house, and about all that he hath on every side? thou hast blessed the work of his hands, and his substance is increased in the land."));
         valuesList.add(new ScriptureEntity("JOB 3:25", "For the thing which I greatly feared is come upon me, and that which I was afraid is come unto me."));
         valuesList.add(new ScriptureEntity("JOB 7:1", "For the thing which I greatly feared is come upon me, and that which I was afraid is come unto me."));
         valuesList.add(new ScriptureEntity("JOB 14:1-2", "1 Man that is born of a woman is of few days, and full of trouble.\n" +
                 "2 He cometh forth like a flower, and is cut down: he fleeth also as a shadow, and continueth not."));
         valuesList.add(new ScriptureEntity("JOB 14:5", "Seeing his days are determined, the number of his months are with thee, thou hast appointed his bounds that he cannot pass;"));
         valuesList.add(new ScriptureEntity("JOB 29:4-6", "4 As I was in the days of my youth, when the secret of God was upon my tabernacle;\n" +
-                "5 When the Almighty was yet with me, when my children were about_app me;\n" +
+                "5 When the Almighty was yet with me, when my children were about me;\n" +
                 "6 When I washed my steps with butter, and the rock poured me out rivers of oil;"));
 
         // PSALMS
@@ -680,13 +682,13 @@ public class BooksOfTheBible extends AppCompatActivity {
         // ACTS
         valuesList.add(new ScriptureEntity("ACT 1:8", "But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth."));
         valuesList.add(new ScriptureEntity("ACT 2:4", "And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance."));
-        valuesList.add(new ScriptureEntity("ACT 2:41-42", "41 Then they that gladly received his word were baptized: and the same day there were added unto them about_app three thousand souls.\n" +
+        valuesList.add(new ScriptureEntity("ACT 2:41-42", "41 Then they that gladly received his word were baptized: and the same day there were added unto them about three thousand souls.\n" +
                 "42 And they continued stedfastly in the apostles' doctrine and fellowship, and in breaking of bread, and in prayers."));
         valuesList.add(new ScriptureEntity("ACT 4:12", "Neither is there salvation in any other: for there is none other name under heaven given among men, whereby we must be saved."));
-        valuesList.add(new ScriptureEntity("ACT 4:4", "Howbeit many of them which heard the word believed; and the number of the men was about_app five thousand."));
+        valuesList.add(new ScriptureEntity("ACT 4:4", "Howbeit many of them which heard the word believed; and the number of the men was about five thousand."));
         valuesList.add(new ScriptureEntity("ACT 5:14", "And believers were the more added to the Lord, multitudes both of men and women.)"));
         valuesList.add(new ScriptureEntity("ACT 6:4", "But we will give ourselves continually to prayer, and to the ministry of the word.\n"));
-        valuesList.add(new ScriptureEntity("ACT 10:38", "How God anointed Jesus of Nazareth with the Holy Ghost and with power: who went about_app doing good, and healing all that were oppressed of the devil; for God was with him."));
+        valuesList.add(new ScriptureEntity("ACT 10:38", "How God anointed Jesus of Nazareth with the Holy Ghost and with power: who went about doing good, and healing all that were oppressed of the devil; for God was with him."));
         valuesList.add(new ScriptureEntity("ACT 13:44", "And the next sabbath day came almost the whole city together to hear the word of God."));
         valuesList.add(new ScriptureEntity("ACT 20:28", "Take heed therefore unto yourselves, and to all the flock, over the which the Holy Ghost hath made you overseers, to feed the church of God, which he hath purchased with his own blood"));
 
@@ -792,7 +794,7 @@ public class BooksOfTheBible extends AppCompatActivity {
                 "21 Unto him be glory in the church by Christ Jesus throughout all ages, world without end. Amen."));
         valuesList.add(new ScriptureEntity("EPH 4:11-12", "11 And he gave some, apostles; and some, prophets; and some, evangelists; and some, pastors and teachers;\n" +
                 "12 For the perfecting of the saints, for the work of the ministry, for the edifying of the body of Christ:"));
-        valuesList.add(new ScriptureEntity("EPH 4:14", "That we henceforth be no more children, tossed to and fro, and carried about_app with every wind of doctrine, by the sleight of men, and cunning craftiness, whereby they lie in wait to deceive;"));
+        valuesList.add(new ScriptureEntity("EPH 4:14", "That we henceforth be no more children, tossed to and fro, and carried about with every wind of doctrine, by the sleight of men, and cunning craftiness, whereby they lie in wait to deceive;"));
         valuesList.add(new ScriptureEntity("EPH 4:26", "Be ye angry, and sin not: let not the sun go down upon your wrath:"));
         valuesList.add(new ScriptureEntity("EPH 4:27", "Neither give place to the devil."));
         valuesList.add(new ScriptureEntity("EPH 4:28", "Let him that stole steal no more: but rather let him labour, working with his hands the thing which is good, that he may have to give to him that needeth.\n"));
@@ -919,7 +921,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("HEB 10:25", "Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching."));
         valuesList.add(new ScriptureEntity("HEB 11:1", "Now faith is the substance of things hoped for, the evidence of things not seen."));
         valuesList.add(new ScriptureEntity("HEB 11:6", "But without faith it is impossible to please him: for he that cometh to God must believe that he is, and that he is a rewarder of them that diligently seek him."));
-        valuesList.add(new ScriptureEntity("HEB 12:1-2", "1 Wherefore seeing we also are compassed about_app with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us,\n" +
+        valuesList.add(new ScriptureEntity("HEB 12:1-2", "1 Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us,\n" +
                 "2 Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.\n" +
                 "\n"));
         valuesList.add(new ScriptureEntity("HEB 12:6", "For whom the Lord loveth he chasteneth, and scourgeth every son whom he receiveth."));
