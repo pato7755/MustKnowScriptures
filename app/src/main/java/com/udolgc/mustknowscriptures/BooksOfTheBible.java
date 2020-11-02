@@ -39,7 +39,7 @@ public class BooksOfTheBible extends AppCompatActivity {
             "NEH", "EST", "JOB", "PSA", "PRO",
             "ECC", "SONG", "ISA", "JER", "LAM",
             "EZE", "DAN", "HOS", "JOEL", "AMO",
-            "OBA", "JON", "MIC", /*"NAH",*/ "HAB",
+            /*"OBA",*/ "JON", "MIC", /*"NAH",*/ "HAB",
             "ZEP", "HAG", "ZEC", "MAL"
     };
 
