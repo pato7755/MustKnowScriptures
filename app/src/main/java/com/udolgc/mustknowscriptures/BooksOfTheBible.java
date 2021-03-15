@@ -300,9 +300,9 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("DEU 29:29", "The secret things belong unto the Lord our God: but those things which are revealed belong unto us and to our children for ever, that we may do all the words of this law."));
         valuesList.add(new ScriptureEntity("DEU 30:19", "I call heaven and earth to record this day against you, that I have set before you life and death, blessing and cursing: therefore choose life, that both thou and thy seed may live:"));
 
+        valuesList.add(new ScriptureEntity("JOS 1:7", " Only be thou strong and very courageous, that thou mayest observe to do according to all the law, which Moses my servant commanded thee: turn not from it to the right hand or to the left, that thou mayest prosper withersoever thou goest."));
         valuesList.add(new ScriptureEntity("JOS 1:8-9", "8 This book of the law shall not depart out of thy mouth; but thou shalt meditate therein day and night, that thou mayest observe to do according to all that is written therein: for then thou shalt make thy way prosperous, and then thou shalt have good success.\n" +
                 "9 Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the Lord thy God is with thee whithersoever thou goest."));
-        valuesList.add(new ScriptureEntity("JOS 1:7", " Only be thou strong and very courageous, that thou mayest observe to do according to all the law, which Moses my servant commanded thee: turn not from it to the right hand or to the left, that thou mayest prosper withersoever thou goest."));
         valuesList.add(new ScriptureEntity("JOS 13:1", "Now Joshua was old and stricken in years; and the Lord said unto him, Thou art old and stricken in years, and there remaineth yet very much land to be possessed."));
         valuesList.add(new ScriptureEntity("JOS 24:15", "And if it seem evil unto you to serve the Lord, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the Lord."));
 
@@ -389,7 +389,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("PSA 119:130", "The entrance of thy words giveth light; it giveth understanding unto the simple."));
         valuesList.add(new ScriptureEntity("PSA 127:1", "Except the Lord build the house, they labour in vain that build it: except the Lord keep the city, the watchman waketh but in vain."));
         valuesList.add(new ScriptureEntity("PSA 127:3", "Lo, children are an heritage of the Lord: and the fruit of the womb is his reward."));
-        valuesList.add(new ScriptureEntity("PSA 131:1", "Lord, my heart is not haughty, nor mine eyes lofty: neither do I exercise myself in great matters, or in things too high for me."));
+        valuesList.add(new ScriptureEntity("PSA 133:1", " Behold, how good and how pleasant it is for brethren to dwell together in unity!"));
 
         // PROVERBS
         valuesList.add(new ScriptureEntity("PRO 3:5-6", "5 Trust in the Lord with all thine heart; and lean not unto thine own understanding.\n" +
@@ -406,6 +406,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         valuesList.add(new ScriptureEntity("PRO 15:1", "A soft answer turneth away wrath: but grievous words stir up anger."));
         valuesList.add(new ScriptureEntity("PRO 16:25", "There is a way that seemeth right unto a man, but the end thereof are the ways of death."));
         valuesList.add(new ScriptureEntity("PRO 22:1", "A good name is rather to be chosen than great riches, and loving favour rather than silver and gold."));
+        valuesList.add(new ScriptureEntity("PRO 22:10", "Cast out the scorner, and contention shall go out; yea, strife and reproach shall cease."));
         valuesList.add(new ScriptureEntity("PRO 22:13", "The slothful man saith, There is a lion without, I shall be slain in the streets."));
         valuesList.add(new ScriptureEntity("PRO 22:29", "Seest thou a man diligent in his business? he shall stand before kings; he shall not stand before mean men."));
         valuesList.add(new ScriptureEntity("PRO 24:3-4", "3 Through wisdom is an house builded; and by understanding it is established:\n" +
@@ -492,9 +493,9 @@ public class BooksOfTheBible extends AppCompatActivity {
                 "9 For as the heavens are higher than the earth, so are my ways higher than your ways, and my thoughts than your thoughts.\n"));
         valuesList.add(new ScriptureEntity("ISA 55:10-11", "10 For as the rain cometh down, and the snow from heaven, and returneth not thither, but watereth the earth, and maketh it bring forth and bud, that it may give seed to the sower, and bread to the eater:\n" +
                 "11 So shall my word be that goeth forth out of my mouth: it shall not return unto me void, but it shall accomplish that which I please, and it shall prosper in the thing whereto I sent it.\n"));
-        valuesList.add(new ScriptureEntity("ISA 58:12", "And they that shall be of thee shall build the old waste places: thou shalt raise up the foundations of many generations; and thou shalt be called, The repairer of the breach, The restorer of paths to dwell in."));
         valuesList.add(new ScriptureEntity("ISA 58:8-9", "8 Then shall thy light break forth as the morning, and thine health shall spring forth speedily: and thy righteousness shall go before thee; the glory of the Lord shall be thy rearward.\n" +
                 "9 Then shalt thou call, and the Lord shall answer; thou shalt cry, and he shall say, Here I am. If thou take away from the midst of thee the yoke, the putting forth of the finger, and speaking vanity;\n"));
+        valuesList.add(new ScriptureEntity("ISA 58:12", "And they that shall be of thee shall build the old waste places: thou shalt raise up the foundations of many generations; and thou shalt be called, The repairer of the breach, The restorer of paths to dwell in."));
         valuesList.add(new ScriptureEntity("ISA 59:1-2", "1 Behold, the Lord's hand is not shortened, that it cannot save; neither his ear heavy, that it cannot hear:\n" +
                 "2 But your iniquities have separated between you and your God, and your sins have hid his face from you, that he will not hear.\n"));
         valuesList.add(new ScriptureEntity("ISA 60:1", "Arise, shine; for thy light is come, and the glory of the Lord is risen upon thee."));
