@@ -11,7 +11,7 @@ public class MustKnow extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-        
+
     }
 
     public static Context getContext() {

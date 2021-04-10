@@ -4,14 +4,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,9 +73,14 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     }
 
     public void checkFavourites() {
-        if (scriptureList.isEmpty()) {
-            relativeLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
+
+        try {
+            if (scriptureList.isEmpty()) {
+                relativeLayout.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
 

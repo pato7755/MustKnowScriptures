@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +15,18 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,13 +76,11 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
-        gridView = (GridView) findViewById(R.id.gridview);
-        gridView2 = (GridView) findViewById(R.id.gridview2);
-        gridView3 = (GridView) findViewById(R.id.gridview3);
+        gridView = findViewById(R.id.gridview);
+        gridView2 = findViewById(R.id.gridview2);
+        gridView3 = findViewById(R.id.gridview3);
 
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
-
-//        dbHandler.deleteAllScriptures();
 
         SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
         if (preferences.getBoolean("firstRun", true)) {
@@ -207,54 +216,46 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
+/*
 
-//    public void verifyStoragePermissions(Activity activity) {
-//        // Check if we have read or write permission
-//        int writePermission = ActivityCompat.checkSelfPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//
-//        if (writePermission != PackageManager.PERMISSION_GRANTED
-//            /*|| phoneStatePermission != PackageManager.PERMISSION_GRANTED*/) {
-//            // We don't have permission so prompt the user
-//            ActivityCompat.requestPermissions(
-//                    activity,
-//                    PERMISSIONS_STORAGE,
-//                    REQUEST_EXTERNAL_STORAGE
-//
-//            );
-//        } else {
-//            try {
-//                File sd = Environment.getExternalStorageDirectory();
-//                File data = Environment.getDataDirectory();
-//
-//
-//                if (sd.canWrite()) {
-//                    String currentDBPath = "/data/" + "com.udolgc.mustknowscriptures" + "/databases/SCRIPTURE_DB";
-//                    String backupDBPath = "scripture_db_dump.db";
-//                    File currentDB = new File(data, currentDBPath);
-//                    File backupDB = new File(sd, backupDBPath);
-//                    FileChannel source=null;
-//                    FileChannel destination=null;
-//
-//                    try {
-//                        source = new FileInputStream(currentDB).getChannel();
-//                        destination = new FileOutputStream(backupDB).getChannel();
-//                        destination.transferFrom(source, 0, source.size());
-//                        source.close();
-//                        destination.close();
-//                        Toast.makeText(BooksOfTheBible.this, "DB Exported!", Toast.LENGTH_LONG).show();
-//                    } catch(IOException e) {
-//                        e.printStackTrace();
-//                        System.out.println(e.getMessage());
-//                    }
-//                } else {
-//                    System.out.println("cannot write");
-//                }
-//            } catch (Exception e) {
-//                System.out.println("exception occured");
-//            }
+    private void getFromFirebase(){
+
+//        val db = Firebase.firestore
+
+//        Firesto
+
+//        db.collection("ENGLISH")
+//                .get()
+//                .addOnSuccessListener { result ->
+//                println("result: $result")
+////                for (document in result) {
+////                    Log.d(TAG, "${document.id} => ${document.data}")
+////                }
 //        }
-//    }
+//            .addOnFailureListener { exception ->
+//                Log.w(TAG, "Error getting documents.", exception)
+//        }
 
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("ENGLISH")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("TAG::", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.w("TAG::", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+    }
+*/
 
     private static boolean doesDatabaseExist(Context context, String databaseName) {
         File dbFile = context.getDatabasePath(databaseName);

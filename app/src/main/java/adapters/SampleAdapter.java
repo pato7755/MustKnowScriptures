@@ -4,14 +4,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.core.widget.TextViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.udolgc.mustknowscriptures.MustKnow;
 import com.udolgc.mustknowscriptures.MyListActivity;
