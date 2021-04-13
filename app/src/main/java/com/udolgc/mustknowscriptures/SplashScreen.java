@@ -31,6 +31,7 @@ public class SplashScreen extends AppCompatActivity {
 				} finally {
 					Intent openMainActivity = new Intent(SplashScreen.this, BooksOfTheBible.class);
 					startActivity(openMainActivity);
+					finish();
 				}
 			}
 		};

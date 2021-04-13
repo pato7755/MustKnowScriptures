@@ -76,9 +76,9 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
-        gridView = findViewById(R.id.gridview);
-        gridView2 = findViewById(R.id.gridview2);
-        gridView3 = findViewById(R.id.gridview3);
+        gridView = (GridView) findViewById(R.id.gridview);
+        gridView2 = (GridView) findViewById(R.id.gridview2);
+        gridView3 = (GridView) findViewById(R.id.gridview3);
 
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
 
