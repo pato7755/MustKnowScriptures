@@ -33,7 +33,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     RelativeLayout relativeLayout;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mylist_activity);
 

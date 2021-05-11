@@ -20,18 +20,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dbstuff.DatabaseHandler;
 
@@ -41,6 +41,7 @@ public class BooksOfTheBible extends AppCompatActivity {
     GridView gridView2;
     GridView gridView3;
     ProgressDialog progress;
+    List<ScriptureEntity> list = new ArrayList<>();
 
 
     String[] oldTestament = new String[]{
@@ -76,6 +77,12 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
+        try {
+            fetchScriptures();
+        } catch (Exception ex) {
+            System.out.println("ex.getMessage: " + ex.getMessage());
+        }
+
         gridView = (GridView) findViewById(R.id.gridview);
         gridView2 = (GridView) findViewById(R.id.gridview2);
         gridView3 = (GridView) findViewById(R.id.gridview3);
@@ -90,6 +97,7 @@ public class BooksOfTheBible extends AppCompatActivity {
             preferences.edit().putBoolean("firstRun", false).apply();
 
         }
+
 
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
         List<HashMap<String, String>> aList2 = new ArrayList<HashMap<String, String>>();
@@ -262,6 +270,90 @@ public class BooksOfTheBible extends AppCompatActivity {
         return dbFile.exists();
     }
 
+    private void fetchScriptures() {
+
+        System.out.println("fetch scriptures");
+
+//        val list: ArrayList<ScriptureEntity> = arrayListOf();
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try {
+
+            System.out.println("try");
+
+            db.collection("English")
+//                    .orderBy("createdAt")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            System.out.println("oncomplete");
+
+                            if (task.isSuccessful())
+                                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
+
+                                    System.out.println("document: " + documentSnapshot);
+                                    System.out.println(documentSnapshot.getData());
+
+                                    for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+
+                                        System.out.println("entry.getkey(): " + entry.getKey());
+                                        System.out.println("entry.getentry(): " + entry.getValue());
+
+                                        list.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString()));
+
+                                    }
+
+
+                                }
+
+                        }
+
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    Log.d("TAG::", document.getId() + " => " + document.getData());
+//                                }
+//                            } else {
+//                                Log.w("TAG::", "Error getting documents.", task.getException());
+//                            }
+//                        }
+                    });
+
+        } catch (Exception ex) {
+            System.out.println("exception: " + ex.getMessage());
+        }
+
+//        dbHandler.batchInsertScriptures(list);
+
+//        dbHandler.batchInsertScriptures(list);
+
+//                for (book in document) {
+//
+//                    for (content in book.data) {
+//
+//                        println("key: ${content.key}....value: ${content.value}")
+//
+//                        list.add(ScriptureEntity(content.key, content.value.toString()))
+//
+//                    }
+//
+//                }
+//
+//            } catch (ex: java.lang.Exception) {
+//                println("ex: ${ex.message}")
+//            }
+//
+//            println("list.size: ${list.size}")
+
+//            dbHandler.batchInsertScriptures(list)
+
+    }
 
     public void insertScriptures() {
 //        dbHandler.addScripture(new ScriptureEntity());
