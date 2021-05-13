@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AboutApp"
+        <activity android:name=".Settings"></activity>
+        <activity
+            android:name=".AboutApp"
             android:configChanges="orientation|screenSize"
             android:label="@string/about_app_title">
             <intent-filter>
@@ -28,7 +30,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SplashScreen"
+        <activity
+            android:name=".SplashScreen"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -37,16 +40,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BooksOfTheBible"
-            android:configChanges="orientation|screenSize" >
+        <activity
+            android:name=".BooksOfTheBible"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.BOOKSOFTHEBIBLE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyListActivity"
-            android:configChanges="orientation|screenSize" >
+        <activity
+            android:name=".MyListActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MYLISTACTIVITY" />
 

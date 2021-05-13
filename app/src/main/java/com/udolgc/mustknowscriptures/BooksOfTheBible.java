@@ -23,11 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,7 @@ public class BooksOfTheBible extends AppCompatActivity {
     GridView gridView3;
     ProgressDialog progress;
     List<ScriptureEntity> list = new ArrayList<>();
-
+    Intent intent;
 
     String[] oldTestament = new String[]{
             "GEN", "EXO", "LEV", "NUM", "DEU",
@@ -1180,7 +1178,7 @@ public class BooksOfTheBible extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.about, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -1188,8 +1186,14 @@ public class BooksOfTheBible extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about:
-                Intent intent = new Intent(BooksOfTheBible.this, AboutApp.class);
+                intent = new Intent(BooksOfTheBible.this, AboutApp.class);
                 startActivity(intent);
+                break;
+                case R.id.settings:
+                intent = new Intent(BooksOfTheBible.this, Settings.class);
+                startActivity(intent);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
