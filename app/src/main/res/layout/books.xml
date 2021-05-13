@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray">
 
     <!--<ScrollView-->
@@ -12,23 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingStart="10dp"
-                android:text="@string/old_testament"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/books"
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
 
@@ -37,68 +39,40 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray" />
 
-            <GridView
-                android:id="@+id/gridview"
+            <ListView
+                android:id="@+id/listview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:horizontalSpacing="1.5dp"
-                android:numColumns="5"
-                android:stretchMode="columnWidth"
+                android:layout_height="match_parent"
                 android:verticalSpacing="1.5dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingStart="10dp"
-                android:text="@string/new_testament"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/others"
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
-            <GridView
-                android:id="@+id/gridview2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:horizontalSpacing="1.5dp"
-                android:numColumns="5"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="1.5dp" />
-
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
                 android:text="@string/others"
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
@@ -109,15 +83,11 @@
                 android:layout_height="0.5dp"
                 android:background="@color/gray" />
 
-            <GridView
-                android:id="@+id/gridview3"
+            <ListView
+                android:id="@+id/others_listview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:horizontalSpacing="1.5dp"
-                android:numColumns="5"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="1.5dp" />
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 

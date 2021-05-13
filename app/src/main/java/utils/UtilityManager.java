@@ -11,6 +11,8 @@ public class UtilityManager {
     public static final String myPreferences = "MUST_KNOW_PREFERENCES";
     public static final String SETUP_DONE = "SETUP_DONE";
     public static final String LANGUAGE = "LANGUAGE";
+    public static final String ENGLISH = "english";
+    public static final String FRENCH = "french";
 
     public void setPreferences(String preferenceName, String preferenceValue) {
 

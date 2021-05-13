@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,22 +37,29 @@ import utils.UtilityManager;
 public class BooksOfTheBible extends AppCompatActivity {
 
     UtilityManager utilityManager = new UtilityManager();
-    GridView gridView;
-    GridView gridView2;
-    GridView gridView3;
+    ListView listView;
+//    GridView gridView2;
+    ListView othersListView;
     ProgressDialog progress;
-    List<ScriptureEntity> list = new ArrayList<>();
+    List<ScriptureEntity> listEnglish = new ArrayList<>();
+    List<ScriptureEntity> listFrench = new ArrayList<>();
     Intent intent;
 
-    String[] oldTestament = new String[]{
-            "GEN", "EXO", "LEV", "NUM", "DEU",
-            "JOS", /*"JUDG",*/ "RUT", "1SAM", "2SAM",
-            "1KIN", "2KIN", "1CHR", "2CHR", "EZR",
-            "NEH", "EST", "JOB", "PSA", "PRO",
-            "ECC", "SONG", "ISA", "JER", "LAM",
-            "EZE", "DAN", "HOS", "JOEL", "AMO",
-            /*"OBA",*/ "JON", "MIC", /*"NAH",*/ "HAB",
-            "ZEP", "HAG", "ZEC", "MAL"
+    String[] booksEnglish = new String[]{
+            "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+            "Joshua", /*"JUDG",*/ "Ruth", "1 Samuel", "2 Samuel",
+            "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra",
+            "Nehemiah", "Esther", "Job", "Psalm", "Proverbs",
+            "Ecclesiastes", "Songs of Solomon", "Isaiah", "Jeremiah", "Lamentations",
+            "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+            "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk",
+            "Zephaniah", "Haggai", "Zechariah", "Malachi",
+            "Matthew", "Mark", "Luke", "John", "Acts",
+            "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians",
+            "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy",
+            "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
+            "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
+            "Jude", "Revelation"
     };
 
     String[] newTestament = new String[]{
@@ -65,7 +72,7 @@ public class BooksOfTheBible extends AppCompatActivity {
     };
 
     String[] others = new String[]{
-            "ALL", "FAV"
+            "ALL", "Favourites"
     };
 
     DatabaseHandler dbHandler;
@@ -77,44 +84,49 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
-        try {
-            fetchScriptures();
-        } catch (Exception ex) {
-            System.out.println("ex.getMessage: " + ex.getMessage());
-        }
+//        try {
+//            fetchScriptures();
+//        } catch (Exception ex) {
+//            System.out.println("ex.getMessage: " + ex.getMessage());
+//        }
 
-        gridView = (GridView) findViewById(R.id.gridview);
-        gridView2 = (GridView) findViewById(R.id.gridview2);
-        gridView3 = (GridView) findViewById(R.id.gridview3);
+        listView = findViewById(R.id.listview);
+//        gridView2 = (GridView) findViewById(R.id.gridview2);
+        othersListView = findViewById(R.id.others_listview);
 
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
 
         SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
 //        if (preferences.getBoolean("firstRun", true)) {
-        if (utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
+        if (!utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
 
-            new uploadScriptures().execute();
+            utilityManager.setPreferences(UtilityManager.LANGUAGE, UtilityManager.ENGLISH);
 
-            preferences.edit().putBoolean("firstRun", false).apply();
+            new downloadScriptures().execute();
 
+
+//            preferences.edit().putBoolean("firstRun", false).apply();
+
+        } else {
+            System.out.println("SETUP IS DONE");
         }
 
 
         List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-        List<HashMap<String, String>> aList2 = new ArrayList<HashMap<String, String>>();
+//        List<HashMap<String, String>> aList2 = new ArrayList<HashMap<String, String>>();
         List<HashMap<String, String>> aList3 = new ArrayList<HashMap<String, String>>();
 
-        for (String s : oldTestament) {
+        for (String s : booksEnglish) {
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("txt", s);
             aList.add(hm);
         }
 
-        for (String s : newTestament) {
-            HashMap<String, String> hm2 = new HashMap<String, String>();
-            hm2.put("txt2", s);
-            aList2.add(hm2);
-        }
+//        for (String s : newTestament) {
+//            HashMap<String, String> hm2 = new HashMap<String, String>();
+//            hm2.put("txt2", s);
+//            aList2.add(hm2);
+//        }
 
         for (String other : others) {
             HashMap<String, String> hm3 = new HashMap<String, String>();
@@ -125,8 +137,8 @@ public class BooksOfTheBible extends AppCompatActivity {
         String[] from = {"txt"};
         int[] to = {R.id.txt};
 
-        String[] from2 = {"txt2"};
-        int[] to2 = {R.id.txt2};
+//        String[] from2 = {"txt2"};
+//        int[] to2 = {R.id.txt2};
 
         String[] from3 = {"txt3"};
         int[] to3 = {R.id.txt3};
@@ -134,17 +146,14 @@ public class BooksOfTheBible extends AppCompatActivity {
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
         SimpleAdapter adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.gridview_layout, from, to);
-        SimpleAdapter adapter2 = new SimpleAdapter(getBaseContext(), aList2, R.layout.gridview_layout2, from2, to2);
+//        SimpleAdapter adapter2 = new SimpleAdapter(getBaseContext(), aList2, R.layout.gridview_layout2, from2, to2);
         SimpleAdapter adapter3 = new SimpleAdapter(getBaseContext(), aList3, R.layout.gridview_layout3, from3, to3);
 
-        final GridView gridView = (GridView) findViewById(R.id.gridview);
-        gridView.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
-        final GridView gridView2 = (GridView) findViewById(R.id.gridview2);
-        gridView2.setAdapter(adapter2);
+//        gridView2.setAdapter(adapter2);
 
-        final GridView gridView3 = (GridView) findViewById(R.id.gridview3);
-        gridView3.setAdapter(adapter3);
+        othersListView.setAdapter(adapter3);
 
         if (doesDatabaseExist(BooksOfTheBible.this, "SCRIPTURE_DB")) {
             System.out.println("DATABASE EXISTS !!!");
@@ -153,7 +162,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         }
 
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -161,10 +170,12 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                 System.out.println("title: " + book);
 
-                List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book);
+                List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
                 for (ScriptureEntity cn : scriptureList) {
-                    String log = "Id: " + cn.getId() + " ,TITLE: " + cn.getTitle() + " ,SCRIPTURE: " +
-                            cn.getScripture();
+                    String log = "Id: " + cn.getId() +
+                            " ,TITLE: " + cn.getTitle() +
+                            " ,SCRIPTURE: " + cn.getScripture() +
+                            " ,BOOK_NAME: " + cn.getBook();
                     // Writing scriptures to log
                     Log.d("Name: ", log);
                 }
@@ -176,32 +187,32 @@ public class BooksOfTheBible extends AppCompatActivity {
             }
         });
 
-        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                String book = (String) ((TextView) view.findViewById(R.id.txt2)).getText();
+//
+//                System.out.println("title: " + book);
+//
+//
+//                List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+//                for (ScriptureEntity cn : scriptureList) {
+//                    String log = "Id: " + cn.getId() + " ,TITLE: " + cn.getTitle() + " ,SCRIPTURE: " +
+//                            cn.getScripture();
+//                    // Writing scriptures to log
+//                    Log.d("Name: ", log);
+//                }
+//
+//                scriptureByBook = scriptureList;
+//                Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
-                String book = (String) ((TextView) view.findViewById(R.id.txt2)).getText();
 
-                System.out.println("title: " + book);
-
-
-                List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book);
-                for (ScriptureEntity cn : scriptureList) {
-                    String log = "Id: " + cn.getId() + " ,TITLE: " + cn.getTitle() + " ,SCRIPTURE: " +
-                            cn.getScripture();
-                    // Writing scriptures to log
-                    Log.d("Name: ", log);
-                }
-
-                scriptureByBook = scriptureList;
-                Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
-        gridView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        othersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -210,12 +221,12 @@ public class BooksOfTheBible extends AppCompatActivity {
                 System.out.println("title: " + book);
 
                 if (book.equals("ALL")) {
-                    scriptureByBook = dbHandler.getAllScriptures();
+                    scriptureByBook = dbHandler.getAllScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
                     Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                     startActivity(intent);
 
-                } else if (book.equals("FAV")) {
-                    scriptureByBook = dbHandler.getFavouriteScriptures();
+                } else if (book.equals("Favourites")) {
+                    scriptureByBook = dbHandler.getFavouriteScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
                     Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                     startActivity(intent);
 
@@ -225,53 +236,13 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
-/*
-
-    private void getFromFirebase(){
-
-//        val db = Firebase.firestore
-
-//        Firesto
-
-//        db.collection("ENGLISH")
-//                .get()
-//                .addOnSuccessListener { result ->
-//                println("result: $result")
-////                for (document in result) {
-////                    Log.d(TAG, "${document.id} => ${document.data}")
-////                }
-//        }
-//            .addOnFailureListener { exception ->
-//                Log.w(TAG, "Error getting documents.", exception)
-//        }
-
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("ENGLISH")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG::", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("TAG::", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-    }
-*/
 
     private static boolean doesDatabaseExist(Context context, String databaseName) {
         File dbFile = context.getDatabasePath(databaseName);
         return dbFile.exists();
     }
 
-    private void fetchScriptures() {
+    private void fetchScripturesEnglish() {
 
         System.out.println("fetch scriptures");
 
@@ -289,26 +260,30 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                             System.out.println("oncomplete");
 
-                            if (task.isSuccessful())
+                            if (task.isSuccessful()) {
                                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
 
-                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
-
-                                    System.out.println("document: " + documentSnapshot);
+//                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
+//
+//                                    System.out.println("document: " + documentSnapshot);
                                     System.out.println(documentSnapshot.getData());
+                                    System.out.println("getId: " + documentSnapshot.getId());
+
+                                    String bookName = documentSnapshot.getId();
 
                                     for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
 
                                         System.out.println("entry.getkey(): " + entry.getKey());
                                         System.out.println("entry.getentry(): " + entry.getValue());
 
-                                        list.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString()));
+                                        listEnglish.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
 
                                     }
 
-
                                 }
-
+                                System.out.println("batch insert english");
+                                dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
+                            } else{}
                         }
 
 //                        @Override
@@ -327,7 +302,78 @@ public class BooksOfTheBible extends AppCompatActivity {
             System.out.println("exception: " + ex.getMessage());
         }
 
+//        try {
+//
+//
+//
+//        } catch (Exception ex) {
+//            System.out.println("exception inserting scriptures: " + ex.getMessage());
+//        }
+
     }
+
+    private void fetchScripturesFrench() {
+
+        System.out.println("fetch scriptures french");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try {
+
+            System.out.println("try");
+
+            db.collection("French")
+//                    .orderBy("createdAt")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            System.out.println("oncomplete");
+
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+
+//                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
+//
+//                                    System.out.println("document: " + documentSnapshot);
+                                    System.out.println(documentSnapshot.getData());
+                                    System.out.println(documentSnapshot.getId());
+
+                                    String bookName = documentSnapshot.getId();
+
+                                    for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+
+                                        System.out.println("entry.getkey(): " + entry.getKey());
+                                        System.out.println("entry.getentry(): " + entry.getValue());
+
+                                        listFrench.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
+
+                                    }
+
+                                }
+                                System.out.println("batch insert french");
+                                dbHandler.batchInsertScriptures(listFrench, UtilityManager.FRENCH);
+                            } else {}
+                        }
+
+                    });
+
+        } catch (Exception ex) {
+            System.out.println("exception: " + ex.getMessage());
+        }
+
+//        try {
+//
+//            dbHandler.batchInsertScriptures(list, UtilityManager.FRENCH);
+//
+//        } catch (Exception ex) {
+//            System.out.println("exception inserting scriptures: " + ex.getMessage());
+//        }
+
+    }
+
+
+/*
 
     public void insertScriptures() {
 //        dbHandler.addScripture(new ScriptureEntity());
@@ -1094,9 +1140,10 @@ public class BooksOfTheBible extends AppCompatActivity {
         dbHandler.batchInsertScriptures(valuesList);
 
     }
+*/
 
 
-    public class uploadScriptures extends AsyncTask<Void, Void, Void> {
+    public class downloadScriptures extends AsyncTask<Void, Void, Void> {
 
         private Exception e = null;
 
@@ -1117,13 +1164,22 @@ public class BooksOfTheBible extends AppCompatActivity {
 
             try {
 
-//                insertScriptures();
-                fetchScriptures();
+                fetchScripturesEnglish();
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                System.out.println("exception: " + e.getMessage());
+                System.out.println("exception downloading english: " + e.getMessage());
+            }
+
+            try {
+
+                fetchScripturesFrench();
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                System.out.println("exception downloading french: " + e.getMessage());
             }
 
             return null;
@@ -1141,8 +1197,8 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                 progress.cancel();
                 Toast.makeText(BooksOfTheBible.this, "Upload Successful", Toast.LENGTH_LONG).show();
-//                Toast.makeText(BooksOfTheBible.this, "Upload Successful", Toast.LENGTH_LONG).show();
-                System.out.println("number of records: " + dbHandler.getScriptureCount());
+                System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
+                utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
 
 
             }

@@ -24,16 +24,17 @@ import java.util.List;
 import java.util.Locale;
 
 import dbstuff.DatabaseHandler;
+import utils.UtilityManager;
 
 public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHolder> /*implements TextToSpeech.OnInitListener*/ {
 
     private List<ScriptureEntity> list;
-    private TextToSpeech textToSpeech;
     private Context context;
     String text;
     String title;
     DatabaseHandler dbHandler;
     public static boolean playFlag = false;
+    UtilityManager utilityManager = new UtilityManager();
 
     public SampleAdapter(Context context) {
         this.context = context;
@@ -210,13 +211,13 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHold
 
                     holder.addToFavButton.setBackgroundColor(MustKnow.getContext().getResources().getColor(R.color.gold));
                     title = holder.frontTextView.getText().toString();
-                    dbHandler.addFavScripture(title);
+                    dbHandler.addFavScripture(title, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
 
                 } else if (entity.getFavourite() != null && entity.getFavourite().equals("YES")) {
 
                     holder.addToFavButton.setBackgroundColor(MustKnow.getContext().getResources().getColor(R.color.transparent));
                     title = holder.frontTextView.getText().toString();
-                    dbHandler.removeFavScripture(title);
+                    dbHandler.removeFavScripture(title, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
 
 
 //                    if (context instanceof MyListActivity) {
@@ -244,6 +245,7 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHold
         return list.size();
     }
 
+/*
 
     public void textToSpeechFunction() {
 
@@ -274,6 +276,7 @@ public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHold
         }
 
     }
+*/
 
 
     Runnable runnable = null;

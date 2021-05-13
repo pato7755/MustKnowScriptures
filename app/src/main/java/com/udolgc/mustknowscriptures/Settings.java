@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import adapters.SettingsAdapter;
@@ -25,6 +27,8 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initViews();
 
@@ -58,6 +62,15 @@ public class Settings extends AppCompatActivity {
         SettingsAdapter adapter = new SettingsAdapter(itemList, this);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Settings.this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

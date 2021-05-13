@@ -11,14 +11,19 @@ import com.udolgc.mustknowscriptures.ScriptureEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.UtilityManager;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "SCRIPTURE_DB";
-    private static final String SCRIPTURE_TABLE = "tb_scripture";
+    private static final String SCRIPTURE_TABLE = "tb_scripture_";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "title";
     private static final String KEY_SCRIPTURE = "scripture";
+    private static final String KEY_BOOK = "book";
     private static final String KEY_FAV = "favourite";
+
+    UtilityManager utilityManager = new UtilityManager();
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,12 +33,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_SCRIPTURE_TABLE = "CREATE TABLE " + SCRIPTURE_TABLE + "("
+        String CREATE_SCRIPTURE_TABLE_ENGLISH = "CREATE TABLE " + SCRIPTURE_TABLE.concat(UtilityManager.ENGLISH)+ "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
                 + KEY_SCRIPTURE + " TEXT,"
+                + KEY_BOOK + " TEXT,"
                 + KEY_FAV + " TEXT" + ") ";
-        db.execSQL(CREATE_SCRIPTURE_TABLE);
+        String CREATE_SCRIPTURE_TABLE_FRENCH = "CREATE TABLE " + SCRIPTURE_TABLE.concat(UtilityManager.FRENCH)+ "("
+                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_NAME + " TEXT,"
+                + KEY_SCRIPTURE + " TEXT,"
+                + KEY_BOOK + " TEXT,"
+                + KEY_FAV + " TEXT" + ") ";
+
+        db.execSQL(CREATE_SCRIPTURE_TABLE_ENGLISH);
+        db.execSQL(CREATE_SCRIPTURE_TABLE_FRENCH);
 
     }
 
@@ -41,7 +55,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + SCRIPTURE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SCRIPTURE_TABLE.concat(UtilityManager.ENGLISH));
+        db.execSQL("DROP TABLE IF EXISTS " + SCRIPTURE_TABLE.concat(UtilityManager.FRENCH));
 
         // Create tables again
         onCreate(db);
@@ -49,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     // code to add the new scripture
-    public void addScripture(ScriptureEntity scripture) {
+    public void addScripture(ScriptureEntity scripture, String language) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -58,12 +73,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_FAV, "");
 
         // Inserting Row
-        db.insert(SCRIPTURE_TABLE, null, values);
+        db.insert(SCRIPTURE_TABLE.concat(language), null, values);
         //2nd argument is String containing nullColumnHack
         db.close(); // Closing database connection
     }
 
-    public void batchInsertScriptures(List<ScriptureEntity> list) {
+
+    public void batchInsertScriptures(List<ScriptureEntity> list, String language) {
+        System.out.println("batch insert");
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -72,9 +89,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 values.put(KEY_NAME, scripture.getTitle());
                 values.put(KEY_SCRIPTURE, scripture.getScripture());
                 values.put(KEY_FAV, "");
-                db.insert(SCRIPTURE_TABLE, null, values);
+                values.put(KEY_BOOK, scripture.getBook());
+                db.insert(SCRIPTURE_TABLE.concat(language), null, values);
             }
             db.setTransactionSuccessful();
+        } catch (Exception ex){
+            System.out.println("insertion exception: " + ex.getMessage());
+            ex.printStackTrace();
         } finally {
             db.endTransaction();
         }
@@ -82,11 +103,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     // code to get all scriptures in a particular book
-    public List<ScriptureEntity> getFavouriteScriptures() {
+    public List<ScriptureEntity> getFavouriteScriptures(String language) {
         List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(SCRIPTURE_TABLE,
+        Cursor cursor = db.query(SCRIPTURE_TABLE.concat(language),
                 new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE, KEY_FAV},
                 KEY_FAV + " =?",
                 new String[]{"YES"},
@@ -108,6 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scriptureList.add(scripture);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         // return scripture list
         return scriptureList;
@@ -115,11 +137,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     // code to get all scriptures in a particular book
-    public List<ScriptureEntity> getSelectedBook(String book) {
+    public List<ScriptureEntity> getSelectedBook(String book, String language) {
         List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(SCRIPTURE_TABLE,
+        Cursor cursor = db.query(SCRIPTURE_TABLE.concat(language),
                 new String[]{KEY_ID, KEY_NAME, KEY_SCRIPTURE, KEY_FAV},
                 KEY_NAME + " LIKE?",
                 new String[]{book + "%"},
@@ -140,6 +162,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scriptureList.add(scripture);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         // return scripture list
         return scriptureList;
@@ -147,10 +170,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     // code to get all scriptures in a list view
-    public List<ScriptureEntity> getAllScriptures() {
+    public List<ScriptureEntity> getAllScriptures(String language) {
         List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + SCRIPTURE_TABLE + " WHERE " + KEY_NAME + " IS NOT NULL";
+        String selectQuery = "SELECT  * FROM " + SCRIPTURE_TABLE.concat(language) + " WHERE " + KEY_NAME + " IS NOT NULL";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -167,16 +190,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scriptureList.add(scripture);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         // return scripture list
         return scriptureList;
     }
 
 
-    public List<ScriptureEntity> deleteAllScriptures() {
+    public List<ScriptureEntity> deleteAllScriptures(String language) {
         List<ScriptureEntity> scriptureList = new ArrayList<ScriptureEntity>();
         // Select All Query
-        String selectQuery = "DELETE FROM " + SCRIPTURE_TABLE;
+        String selectQuery = "DELETE FROM " + SCRIPTURE_TABLE.concat(language);
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -192,6 +216,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 scriptureList.add(scripture);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         // return scripture list
         return scriptureList;
@@ -199,7 +224,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     // code to update the single scripture
-    public int addFavScripture(String title) {
+    public int addFavScripture(String title, String language) {
         SQLiteDatabase db = this.getWritableDatabase();
         ScriptureEntity scriptureEntity = new ScriptureEntity();
         ContentValues values = new ContentValues();
@@ -210,10 +235,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_FAV, "YES");
-        return db.update(SCRIPTURE_TABLE, cv, KEY_NAME + "= ?", new String[]{title});
+        return db.update(SCRIPTURE_TABLE.concat(language), cv, KEY_NAME + "= ?", new String[]{title});
     }
 
-    public int removeFavScripture(String title) {
+    public int removeFavScripture(String title, String language) {
         SQLiteDatabase db = this.getWritableDatabase();
         ScriptureEntity scriptureEntity = new ScriptureEntity();
         ContentValues values = new ContentValues();
@@ -223,22 +248,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_FAV, "");
-        return db.update(SCRIPTURE_TABLE, cv, KEY_NAME + "= ?", new String[]{title});
+        return db.update(SCRIPTURE_TABLE.concat(language), cv, KEY_NAME + "= ?", new String[]{title});
     }
 
 
     // Deleting single scripture
-    public void deleteScripture(ScriptureEntity scripture) {
+    public void deleteScripture(ScriptureEntity scripture, String language) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(SCRIPTURE_TABLE, KEY_ID + " = ?",
+        db.delete(SCRIPTURE_TABLE.concat(language), KEY_ID + " = ?",
                 new String[]{String.valueOf(scripture.getId())});
         db.close();
     }
 
 
     // Getting scripture Count
-    public int getScriptureCount() {
-        String countQuery = "SELECT  * FROM " + SCRIPTURE_TABLE;
+    public int getScriptureCount(String language) {
+        String countQuery = "SELECT  * FROM " + SCRIPTURE_TABLE.concat(language);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();

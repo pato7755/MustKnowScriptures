@@ -19,7 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Settings"></activity>
+
+        <activity android:name=".Settings"
+            android:label="@string/settings"
+
+            />
         <activity
             android:name=".AboutApp"
             android:configChanges="orientation|screenSize"

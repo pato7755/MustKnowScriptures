@@ -63,6 +63,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             radioButton.setChecked(true);
 
             System.out.println("selected: " + selectedLanguage);
+            notifyDataSetChanged();
 
             utilityManager.setPreferences(UtilityManager.LANGUAGE, selectedLanguage);
 
@@ -96,6 +97,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
                 break;
 
         }
+
+    }
+
+    public void deselect(){
 
     }
 
