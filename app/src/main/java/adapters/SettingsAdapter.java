@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.autofill.AutofillId;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -16,12 +17,14 @@ import com.udolgc.mustknowscriptures.R;
 import java.util.List;
 
 import models.SettingsModel;
+import utils.UtilityManager;
 
 
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyViewHolder> {
 
     private List<SettingsModel> list;
     private Context context;
+    UtilityManager utilityManager = new UtilityManager();
 
     public SettingsAdapter() {
     }
@@ -33,7 +36,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final View view;
         private final TextView languageNameTextView;
         private final ImageView flagImageView;
@@ -59,6 +62,9 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             String selectedLanguage = languageNameTextView.getText().toString();
             radioButton.setChecked(true);
 
+            System.out.println("selected: " + selectedLanguage);
+
+            utilityManager.setPreferences(UtilityManager.LANGUAGE, selectedLanguage);
 
         }
     }
@@ -93,17 +99,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
     }
 
-//
-//    public void removeAt(int position) {
-//
-//        if (delete == 1) {
-//
-//            list.remove(position);
-//            notifyItemRemoved(position);
-//            notifyItemRangeChanged(position, list.size());
-//            delete = 0;
-//        }
-//    }
 
 
     @Override

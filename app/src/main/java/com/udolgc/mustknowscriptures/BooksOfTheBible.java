@@ -32,9 +32,11 @@ import java.util.List;
 import java.util.Map;
 
 import dbstuff.DatabaseHandler;
+import utils.UtilityManager;
 
 public class BooksOfTheBible extends AppCompatActivity {
 
+    UtilityManager utilityManager = new UtilityManager();
     GridView gridView;
     GridView gridView2;
     GridView gridView3;
@@ -88,7 +90,8 @@ public class BooksOfTheBible extends AppCompatActivity {
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
 
         SharedPreferences preferences = getSharedPreferences("myprefs", MODE_PRIVATE);
-        if (preferences.getBoolean("firstRun", true)) {
+//        if (preferences.getBoolean("firstRun", true)) {
+        if (utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
 
             new uploadScriptures().execute();
 
@@ -272,9 +275,6 @@ public class BooksOfTheBible extends AppCompatActivity {
 
         System.out.println("fetch scriptures");
 
-//        val list: ArrayList<ScriptureEntity> = arrayListOf();
-
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         try {
 
@@ -326,30 +326,6 @@ public class BooksOfTheBible extends AppCompatActivity {
         } catch (Exception ex) {
             System.out.println("exception: " + ex.getMessage());
         }
-
-//        dbHandler.batchInsertScriptures(list);
-
-//        dbHandler.batchInsertScriptures(list);
-
-//                for (book in document) {
-//
-//                    for (content in book.data) {
-//
-//                        println("key: ${content.key}....value: ${content.value}")
-//
-//                        list.add(ScriptureEntity(content.key, content.value.toString()))
-//
-//                    }
-//
-//                }
-//
-//            } catch (ex: java.lang.Exception) {
-//                println("ex: ${ex.message}")
-//            }
-//
-//            println("list.size: ${list.size}")
-
-//            dbHandler.batchInsertScriptures(list)
 
     }
 
@@ -1141,11 +1117,13 @@ public class BooksOfTheBible extends AppCompatActivity {
 
             try {
 
-                insertScriptures();
+//                insertScriptures();
+                fetchScriptures();
 
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                System.out.println("exception: " + e.getMessage());
             }
 
             return null;
@@ -1189,7 +1167,7 @@ public class BooksOfTheBible extends AppCompatActivity {
                 intent = new Intent(BooksOfTheBible.this, AboutApp.class);
                 startActivity(intent);
                 break;
-                case R.id.settings:
+            case R.id.settings:
                 intent = new Intent(BooksOfTheBible.this, Settings.class);
                 startActivity(intent);
                 break;
