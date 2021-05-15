@@ -54,8 +54,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             radioButton = view.findViewById(R.id.radioButton);
 
             view.setOnClickListener(this);
-//            editButton.setOnClickListener(this);
-//            deleteButton.setOnClickListener(this);
+            
         }
 
         @Override
@@ -63,9 +62,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             System.out.println("recyclerview clicked");
 
             String selectedLanguage = languageNameTextView.getText().toString();
-//            radioButton.setChecked(true);
-
-            System.out.println("selected: " + selectedLanguage);
 
             lastSelectedPosition = getAdapterPosition();
             notifyDataSetChanged();
@@ -74,19 +70,10 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
                     "You have selected " + languageNameTextView.getText(),
                     Toast.LENGTH_LONG).show();
 
-
-//            itemCheckChanged(view);
-
             utilityManager.setPreferences(UtilityManager.LANGUAGE, selectedLanguage);
 
         }
     }
-//
-//    private void itemCheckChanged(View v) {
-//        selectedPosition = (Integer) v.getTag();
-//        System.out.println("selectedPosition: " + selectedPosition);
-//        notifyDataSetChanged();
-//    }
 
 
     @Override
@@ -114,14 +101,17 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
         }
 
+
         holder.radioButton.setChecked(lastSelectedPosition == position);
 
+        System.out.println("Persisted language is " + utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+        if (utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals(holder.languageNameTextView.getText().toString())){
+            holder.radioButton.setChecked(true);
+        }
+
+
+
     }
-
-    public void deselect(){
-
-    }
-
 
 
     @Override
@@ -131,5 +121,3 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
 
 }
-
-//utilities.getSharedPreference(MainApplication.getContext(), Utilities.USER_ID)
