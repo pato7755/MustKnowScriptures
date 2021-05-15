@@ -9,6 +9,7 @@ import android.view.autofill.AutofillId;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
     private List<SettingsModel> list;
     private Context context;
     UtilityManager utilityManager = new UtilityManager();
+    private int lastSelectedPosition = -1;
+
 
     public SettingsAdapter() {
     }
@@ -60,15 +63,30 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             System.out.println("recyclerview clicked");
 
             String selectedLanguage = languageNameTextView.getText().toString();
-            radioButton.setChecked(true);
+//            radioButton.setChecked(true);
 
             System.out.println("selected: " + selectedLanguage);
+
+            lastSelectedPosition = getAdapterPosition();
             notifyDataSetChanged();
+
+            Toast.makeText(context,
+                    "You have selected " + languageNameTextView.getText(),
+                    Toast.LENGTH_LONG).show();
+
+
+//            itemCheckChanged(view);
 
             utilityManager.setPreferences(UtilityManager.LANGUAGE, selectedLanguage);
 
         }
     }
+//
+//    private void itemCheckChanged(View v) {
+//        selectedPosition = (Integer) v.getTag();
+//        System.out.println("selectedPosition: " + selectedPosition);
+//        notifyDataSetChanged();
+//    }
 
 
     @Override
@@ -84,8 +102,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
 
         SettingsModel modelObject = list.get(position);
 
-        System.out.println("language: " + modelObject.getLanguageName());
-
         holder.languageNameTextView.setText(modelObject.getLanguageName());
 
         switch (modelObject.getLanguageName()) {
@@ -97,6 +113,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
                 break;
 
         }
+
+        holder.radioButton.setChecked(lastSelectedPosition == position);
 
     }
 

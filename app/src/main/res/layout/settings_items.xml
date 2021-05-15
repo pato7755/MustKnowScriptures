@@ -31,21 +31,23 @@
         android:textColor="@color/gray"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        app:layout_constraintVertical_bias="0.5"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@id/flag_imageview"
-        app:layout_constraintTop_toTopOf="@id/radioButton"
-        android:gravity="center_vertical" />
+        app:layout_constraintTop_toTopOf="@id/flag_imageview"
+        app:layout_constraintBottom_toBottomOf="@id/flag_imageview"/>
 
     <RadioButton
         android:id="@+id/radioButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layoutDirection="rtl"
-        app:layout_constraintStart_toEndOf="@id/flag_imageview"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/flag_imageview"
+        app:layout_constraintBottom_toBottomOf="@id/flag_imageview" />
 
 
 <!--    <RadioButton-->

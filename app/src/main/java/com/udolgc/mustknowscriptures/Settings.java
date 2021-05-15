@@ -32,9 +32,6 @@ public class Settings extends AppCompatActivity {
 
         initViews();
 
-
-
-
     }
 
 
@@ -59,8 +56,10 @@ public class Settings extends AppCompatActivity {
 
         }
 
+//        recyclerView.choi(listView.CHOICE_MODE_SINGLE);
+
         SettingsAdapter adapter = new SettingsAdapter(itemList, this);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }
 
