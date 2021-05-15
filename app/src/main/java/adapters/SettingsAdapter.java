@@ -54,7 +54,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.MyView
             radioButton = view.findViewById(R.id.radioButton);
 
             view.setOnClickListener(this);
-            
+
         }
 
         @Override
