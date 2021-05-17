@@ -233,9 +233,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_FAV, scriptureEntity.getFavourite());
         System.out.println("KEY_FAV value is " + values.getAsString(KEY_FAV));
 
-        ContentValues cv = new ContentValues();
-        cv.put(KEY_FAV, "YES");
-        return db.update(SCRIPTURE_TABLE.concat(language), cv, KEY_NAME + "= ?", new String[]{title});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_FAV, "YES");
+        return db.update(SCRIPTURE_TABLE.concat(language), contentValues, KEY_NAME + "= ?", new String[]{title});
     }
 
     public int removeFavScripture(String title, String language) {
