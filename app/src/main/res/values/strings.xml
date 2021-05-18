@@ -21,6 +21,9 @@
     <string name="books">Books</string>
     <string name="livres">Livres</string>
     <string name="autres">Autres</string>
-    <string name="select_preferred_language">Select preferred language...</string>
+    <string name="select_preferred_language">Select preferred language…</string>
+    <string name="oops">Oops!</string>
+    <string name="ok">OK</string>
+    <string name="download_unsuccessful">Sorry, scriptures were not downloaded. Please check your internet connection or send an email to udolgc.dev@gmail.com to report the issue.</string>
 
 </resources>

@@ -12,15 +12,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +41,8 @@ import utils.UtilityManager;
 
 public class BooksOfTheBible extends AppCompatActivity {
 
+    int statusEnglish = 0;
+    int statusFrench = 0;
     UtilityManager utilityManager = new UtilityManager();
     ListView listView;
     ListView othersListView;
@@ -47,6 +54,10 @@ public class BooksOfTheBible extends AppCompatActivity {
     Intent intent;
     List<HashMap<String, String>> aList;
     List<HashMap<String, String>> aList2;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mCurrentUser;
+    ProgressBar progressBar;
 
     String[] booksEnglish = new String[]{
             "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
@@ -100,15 +111,15 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
-        initView();
+        initViews();
 
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
 
         if (!utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
 
             utilityManager.setPreferences(UtilityManager.LANGUAGE, UtilityManager.ENGLISH);
-
-            new downloadScriptures().execute();
+//            new downloadScriptures().execute();
+            authenticateUser();
 
         } else {
             System.out.println("SETUP IS DONE");
@@ -118,12 +129,13 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
-    public void initView(){
+    public void initViews(){
 
         listView = findViewById(R.id.listview);
         othersListView = findViewById(R.id.others_listview);
         booksLabelTextView = findViewById(R.id.books_label_textview);
         othersLabelTextView = findViewById(R.id.others_label_textview);
+        progressBar = findViewById(R.id.progress_bar);
 
     }
 
@@ -175,51 +187,59 @@ public class BooksOfTheBible extends AppCompatActivity {
         }
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                String book = (String) ((TextView) view.findViewById(R.id.txt)).getText();
+            String book = (String) ((TextView) view.findViewById(R.id.txt)).getText();
 
-                System.out.println("title: " + book);
+            System.out.println("title: " + book);
 
-                List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
-                for (ScriptureEntity cn : scriptureList) {
-                    String log = "Id: " + cn.getId() +
-                            " ,TITLE: " + cn.getTitle() +
-                            " ,SCRIPTURE: " + cn.getScripture() +
-                            " ,BOOK_NAME: " + cn.getBook();
-                    // Writing scriptures to log
-                    Log.d("Name: ", log);
-                }
+            List<ScriptureEntity> scriptureList = dbHandler.getSelectedBook(book, utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+            for (ScriptureEntity cn : scriptureList) {
+                String log = "Id: " + cn.getId() +
+                        " ,TITLE: " + cn.getTitle() +
+                        " ,SCRIPTURE: " + cn.getScripture() +
+                        " ,BOOK_NAME: " + cn.getBook();
+                // Writing scriptures to log
+                Log.d("Name: ", log);
+            }
 
+            if (!scriptureList.isEmpty()) {
                 scriptureByBook = scriptureList;
                 Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                 startActivity(intent);
+            } else {
+
+                showAlertDialog(getString(R.string.oops), getString(R.string.download_unsuccessful), getString(R.string.ok));
 
             }
+
         });
 
 
-        othersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        othersListView.setOnItemClickListener((parent, view, position, id) -> {
 
-                String book = (String) ((TextView) view.findViewById(R.id.txt3)).getText();
+            String book = (String) ((TextView) view.findViewById(R.id.txt3)).getText();
 
-                System.out.println("title: " + book);
+            System.out.println("title: " + book);
 
-                if (book.equals("All") || book.equals("Tous")) {
-                    scriptureByBook = dbHandler.getAllScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+            if (book.equals("All") || book.equals("Tous")) {
+
+                scriptureByBook = dbHandler.getAllScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+                if (!scriptureByBook.isEmpty()) {
                     Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                     startActivity(intent);
+                } else {
 
-                } else if (book.equals("Favourites") || book.equals("Préféres")) {
-                    scriptureByBook = dbHandler.getFavouriteScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
-                    Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
-                    startActivity(intent);
+                    showAlertDialog(getString(R.string.oops), getString(R.string.download_unsuccessful), getString(R.string.ok));
 
                 }
+
+            } else if (book.equals("Favourites") || book.equals("Préféres")) {
+
+                scriptureByBook = dbHandler.getFavouriteScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
+                Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -263,7 +283,11 @@ public class BooksOfTheBible extends AppCompatActivity {
                                 }
                                 System.out.println("batch insert english");
                                 dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
+                                statusEnglish = 200;
                             } else {
+
+                                statusEnglish = 400;
+
                             }
                         }
 
@@ -323,7 +347,12 @@ public class BooksOfTheBible extends AppCompatActivity {
                                 }
                                 System.out.println("batch insert french");
                                 dbHandler.batchInsertScriptures(listFrench, UtilityManager.FRENCH);
+                                statusFrench = 200;
+
                             } else {
+
+                                statusFrench = 400;
+
                             }
                         }
 
@@ -348,13 +377,12 @@ public class BooksOfTheBible extends AppCompatActivity {
             progress = new ProgressDialog(BooksOfTheBible.this);
             progress.setCancelable(false);
             progress.setTitle("Please wait");
-            progress.setMessage("Uploading scriptures...");
+            progress.setMessage("Downloading scriptures...");
             progress.show();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-
 
             try {
 
@@ -385,17 +413,57 @@ public class BooksOfTheBible extends AppCompatActivity {
 
             if (e != null) {
                 progress.cancel();
-                //				new ResponseDialog(MyAccounts.this, "We found an error!", e.getMessage()).showDialog();
             } else {
                 super.onPostExecute(result);
 
                 progress.cancel();
-                Toast.makeText(BooksOfTheBible.this, "Download successful", Toast.LENGTH_LONG).show();
-                System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
-                utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
+
+                if (statusEnglish == 200 && statusFrench == 200) {
+
+                    Toast.makeText(BooksOfTheBible.this, "Downloaded scriptures successfully", Toast.LENGTH_LONG).show();
+                    System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
+                    utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
+
+                } else {
+
+                    Toast.makeText(BooksOfTheBible.this, "Scripture download unsuccessful", Toast.LENGTH_LONG).show();
+
+                }
 
             }
 
+        }
+
+    }
+
+    private void authenticateUser(){
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        if (mCurrentUser == null){
+            mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                    if (task.isSuccessful()){
+
+                        new downloadScriptures().execute();
+
+                    }
+                    else {
+
+                        Toast.makeText(BooksOfTheBible.this, "Initial setup of app failed", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        } else {
+            new downloadScriptures().execute();
         }
 
     }
@@ -431,6 +499,21 @@ public class BooksOfTheBible extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showAlertDialog(String title, String message, String positiveButtonText) {
+
+        Context context = this;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
+                    dialogInterface.dismiss();
+                })
+                .create()
+                .show();
+
     }
 
 
