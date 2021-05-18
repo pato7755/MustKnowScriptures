@@ -39,6 +39,8 @@ public class BooksOfTheBible extends AppCompatActivity {
     UtilityManager utilityManager = new UtilityManager();
     ListView listView;
     ListView othersListView;
+    TextView booksLabelTextView;
+    TextView othersLabelTextView;
     ProgressDialog progress;
     List<ScriptureEntity> listEnglish = new ArrayList<>();
     List<ScriptureEntity> listFrench = new ArrayList<>();
@@ -82,7 +84,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
 
     String[] othersEnglish = new String[]{
-            "ALL", "Favourites"
+            "All", "Favourites"
     };
 
     String[] othersFrench = new String[]{
@@ -98,18 +100,9 @@ public class BooksOfTheBible extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.books);
 
-//        try {
-//            fetchScriptures();
-//        } catch (Exception ex) {
-//            System.out.println("ex.getMessage: " + ex.getMessage());
-//        }
-
-        listView = findViewById(R.id.listview);
-//        gridView2 = (GridView) findViewById(R.id.gridview2);
-        othersListView = findViewById(R.id.others_listview);
+        initView();
 
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
-
 
         if (!utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
 
@@ -122,6 +115,13 @@ public class BooksOfTheBible extends AppCompatActivity {
         }
 
         populateMenus();
+
+    }
+
+    public void initView(){
+
+        listView = findViewById(R.id.listview);
+        othersListView = findViewById(R.id.others_listview);
 
     }
 
@@ -156,10 +156,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         String[] from3 = {"txt3"};
         int[] to3 = {R.id.txt3};
 
-        // Instantiating an adapter to store each items
-        // R.layout.listview_layout defines the layout of each item
         SimpleAdapter adapter = new SimpleAdapter(getBaseContext(), aList, R.layout.gridview_layout, from, to);
-//        SimpleAdapter adapter2 = new SimpleAdapter(getBaseContext(), aList2, R.layout.gridview_layout2, from2, to2);
         SimpleAdapter adapter2 = new SimpleAdapter(getBaseContext(), aList2, R.layout.gridview_layout3, from3, to3);
 
         listView.setAdapter(adapter);
@@ -194,7 +191,7 @@ public class BooksOfTheBible extends AppCompatActivity {
                 scriptureByBook = scriptureList;
                 Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                 startActivity(intent);
-//                }
+
             }
         });
 
@@ -207,7 +204,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                 System.out.println("title: " + book);
 
-                if (book.equals("ALL") || book.equals("Tous")) {
+                if (book.equals("All") || book.equals("Tous")) {
                     scriptureByBook = dbHandler.getAllScriptures(utilityManager.getSharedPreference(UtilityManager.LANGUAGE));
                     Intent intent = new Intent(BooksOfTheBible.this, MyListActivity.class);
                     startActivity(intent);
@@ -244,9 +241,6 @@ public class BooksOfTheBible extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
 
-//                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
-//
-//                                    System.out.println("document: " + documentSnapshot);
                                     System.out.println(documentSnapshot.getData());
                                     System.out.println("getId: " + documentSnapshot.getId());
 
@@ -284,14 +278,6 @@ public class BooksOfTheBible extends AppCompatActivity {
             System.out.println("exception: " + ex.getMessage());
         }
 
-//        try {
-//
-//
-//
-//        } catch (Exception ex) {
-//            System.out.println("exception inserting scriptures: " + ex.getMessage());
-//        }
-
     }
 
     private void fetchScripturesFrench() {
@@ -315,9 +301,6 @@ public class BooksOfTheBible extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
 
-//                                    System.out.println("documentSnapshot: " + documentSnapshot.getData());
-//
-//                                    System.out.println("document: " + documentSnapshot);
                                     System.out.println(documentSnapshot.getData());
                                     System.out.println(documentSnapshot.getId());
 
@@ -402,13 +385,11 @@ public class BooksOfTheBible extends AppCompatActivity {
                 super.onPostExecute(result);
 
                 progress.cancel();
-                Toast.makeText(BooksOfTheBible.this, "Upload Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(BooksOfTheBible.this, "Download successful", Toast.LENGTH_LONG).show();
                 System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
                 utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
 
-
             }
-
 
         }
 
@@ -416,19 +397,11 @@ public class BooksOfTheBible extends AppCompatActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("onStart");
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         System.out.println("onResume");
 
         populateMenus();
-
 
     }
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_gray">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,6 +16,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/books_label_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -28,16 +28,11 @@
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:verticalSpacing="1.5dp" />
+                android:dividerHeight="0.5dp" />
 
         </LinearLayout>
 
@@ -49,6 +44,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/others_label_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -60,27 +56,14 @@
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray" />
-
             <ListView
                 android:id="@+id/others_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:dividerHeight="0.5dp"/>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/white" />
-
     </LinearLayout>
-
-    <!--</ScrollView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
