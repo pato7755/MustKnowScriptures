@@ -2,6 +2,7 @@ package com.udolgc.mustknowscriptures;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -467,6 +468,47 @@ public class BooksOfTheBible extends AppCompatActivity {
     }
 
 
+
+    public void exitApp() {
+        try {
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(BooksOfTheBible.this);
+                    alertDialog.setTitle("Confirm exit");
+                    alertDialog.setMessage("Do you want to exit app?");
+
+                    alertDialog.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    BooksOfTheBible.super.onBackPressed();
+                                }
+                            });
+                    // Setting Negative "NO" Btn
+                    alertDialog.setNegativeButton("NO",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Write your code here to execute after dialog
+
+                                    dialog.cancel();
+
+                                }
+                            });
+                    alertDialog.show();
+
+                }
+            });
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -514,5 +556,8 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        exitApp();
+    }
 }
