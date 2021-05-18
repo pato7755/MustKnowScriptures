@@ -122,6 +122,8 @@ public class BooksOfTheBible extends AppCompatActivity {
 
         listView = findViewById(R.id.listview);
         othersListView = findViewById(R.id.others_listview);
+        booksLabelTextView = findViewById(R.id.books_label_textview);
+        othersLabelTextView = findViewById(R.id.others_label_textview);
 
     }
 
@@ -136,6 +138,9 @@ public class BooksOfTheBible extends AppCompatActivity {
 
         aList = new ArrayList<>();
         aList2 = new ArrayList<>();
+
+        booksLabelTextView.setText(utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? R.string.books : R.string.livres);
+        othersLabelTextView.setText(utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? R.string.others : R.string.autres);
 
         for (String s : utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? booksEnglish : booksFrench) {
             HashMap<String, String> hm = new HashMap<String, String>();

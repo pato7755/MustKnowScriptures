@@ -19,6 +19,8 @@
     <string name="english">English</string>
     <string name="select_language">Select language…</string>
     <string name="books">Books</string>
+    <string name="livres">Livres</string>
+    <string name="autres">Autres</string>
     <string name="select_preferred_language">Select preferred language...</string>
-    />
+
 </resources>
