@@ -25,5 +25,8 @@
     <string name="oops">Oops!</string>
     <string name="ok">OK</string>
     <string name="download_unsuccessful">Sorry, scriptures were not downloaded. Please check your internet connection or send an email to udolgc.dev@gmail.com to report the issue.</string>
+    <string name="something_went_wrong">Something went wrong. Please try again</string>
+    <string name="no_internet_connection">You\'re offline. Check your internet connection.</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

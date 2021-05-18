@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import dbstuff.DatabaseHandler;
+import utils.CheckInternetConnection;
 import utils.UtilityManager;
 
 public class BooksOfTheBible extends AppCompatActivity {
@@ -58,6 +59,8 @@ public class BooksOfTheBible extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mCurrentUser;
     ProgressBar progressBar;
+
+    CheckInternetConnection checkInternetConnection = new CheckInternetConnection();
 
     String[] booksEnglish = new String[]{
             "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
@@ -118,8 +121,12 @@ public class BooksOfTheBible extends AppCompatActivity {
         if (!utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
 
             utilityManager.setPreferences(UtilityManager.LANGUAGE, UtilityManager.ENGLISH);
-//            new downloadScriptures().execute();
-            authenticateUser();
+
+            if (!checkInternetConnection.isNetworkAvailable(BooksOfTheBible.this)) {
+                showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.ok));
+            } else {
+                authenticateUser();
+            }
 
         } else {
             System.out.println("SETUP IS DONE");
@@ -129,7 +136,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
-    public void initViews(){
+    public void initViews() {
 
         listView = findViewById(R.id.listview);
         othersListView = findViewById(R.id.others_listview);
@@ -257,53 +264,53 @@ public class BooksOfTheBible extends AppCompatActivity {
             db.collection("English")
 //                    .orderBy("createdAt")
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    .addOnCompleteListener(task -> {
 
-                            System.out.println("oncomplete");
+                        System.out.println("oncomplete");
 
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
 
-                                    System.out.println(documentSnapshot.getData());
-                                    System.out.println("getId: " + documentSnapshot.getId());
+                                System.out.println(documentSnapshot.getData());
+                                System.out.println("getId: " + documentSnapshot.getId());
 
-                                    String bookName = documentSnapshot.getId();
+                                String bookName = documentSnapshot.getId();
 
-                                    for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+                                for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
 
-                                        System.out.println("entry.getkey(): " + entry.getKey());
-                                        System.out.println("entry.getentry(): " + entry.getValue());
+                                    System.out.println("entry.getkey(): " + entry.getKey());
+                                    System.out.println("entry.getentry(): " + entry.getValue());
 
-                                        listEnglish.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
-
-                                    }
+                                    listEnglish.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
 
                                 }
-                                System.out.println("batch insert english");
-                                dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
-                                statusEnglish = 200;
-                            } else {
-
-                                statusEnglish = 400;
 
                             }
+                            System.out.println("batch insert english");
+                            dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
+                            statusEnglish = 200;
+
+                            System.out.println("done with english");
+                        } else {
+
+                            statusEnglish = 400;
+
                         }
 
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    Log.d("TAG::", document.getId() + " => " + document.getData());
-//                                }
-//                            } else {
-//                                Log.w("TAG::", "Error getting documents.", task.getException());
-//                            }
-//                        }
+                        try {
+                            System.out.println("fetchScripturesFrench");
+                            fetchScripturesFrench();
+
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                            System.out.println("exception downloading french: " + e.getMessage());
+                        }
                     });
 
         } catch (Exception ex) {
+            progress.cancel();
+            showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok));
             System.out.println("exception: " + ex.getMessage());
         }
 
@@ -321,45 +328,58 @@ public class BooksOfTheBible extends AppCompatActivity {
             db.collection("French")
 //                    .orderBy("createdAt")
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    .addOnCompleteListener(task -> {
 
-                            System.out.println("oncomplete");
+                        System.out.println("oncomplete");
 
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
 
-                                    System.out.println(documentSnapshot.getData());
-                                    System.out.println(documentSnapshot.getId());
+                                System.out.println(documentSnapshot.getData());
+                                System.out.println(documentSnapshot.getId());
 
-                                    String bookName = documentSnapshot.getId();
+                                String bookName = documentSnapshot.getId();
 
-                                    for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+                                for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
 
-                                        System.out.println("entry.getkey(): " + entry.getKey());
-                                        System.out.println("entry.getentry(): " + entry.getValue());
+                                    System.out.println("entry.getkey(): " + entry.getKey());
+                                    System.out.println("entry.getentry(): " + entry.getValue());
 
-                                        listFrench.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
-
-                                    }
+                                    listFrench.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
 
                                 }
-                                System.out.println("batch insert french");
-                                dbHandler.batchInsertScriptures(listFrench, UtilityManager.FRENCH);
-                                statusFrench = 200;
-
-                            } else {
-
-                                statusFrench = 400;
 
                             }
-                        }
+                            System.out.println("batch insert french");
+                            dbHandler.batchInsertScriptures(listFrench, UtilityManager.FRENCH);
+                            statusFrench = 200;
 
+                        } else {
+
+                            statusFrench = 400;
+
+                        }
+                        System.out.println("DONE DONE");
+
+                        progress.cancel();
+
+                        if (dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)) > 0) {
+
+                            Toast.makeText(BooksOfTheBible.this, "Downloaded scriptures successfully", Toast.LENGTH_LONG).show();
+                            System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
+                            utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
+
+                        } else {
+
+                            Toast.makeText(BooksOfTheBible.this, "Scripture download unsuccessful", Toast.LENGTH_LONG).show();
+
+                        }
                     });
 
         } catch (Exception ex) {
             System.out.println("exception: " + ex.getMessage());
+            progress.cancel();
+            showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok));
         }
 
 
@@ -385,7 +405,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
 
             try {
-
+                System.out.println("fetchScripturesEnglish");
                 fetchScripturesEnglish();
 
             } catch (Exception e) {
@@ -394,15 +414,7 @@ public class BooksOfTheBible extends AppCompatActivity {
                 System.out.println("exception downloading english: " + e.getMessage());
             }
 
-            try {
 
-                fetchScripturesFrench();
-
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                System.out.println("exception downloading french: " + e.getMessage());
-            }
 
             return null;
         }
@@ -416,19 +428,8 @@ public class BooksOfTheBible extends AppCompatActivity {
             } else {
                 super.onPostExecute(result);
 
-                progress.cancel();
+//                progress.cancel();
 
-                if (statusEnglish == 200 && statusFrench == 200) {
-
-                    Toast.makeText(BooksOfTheBible.this, "Downloaded scriptures successfully", Toast.LENGTH_LONG).show();
-                    System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
-                    utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
-
-                } else {
-
-                    Toast.makeText(BooksOfTheBible.this, "Scripture download unsuccessful", Toast.LENGTH_LONG).show();
-
-                }
 
             }
 
@@ -436,33 +437,30 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
-    private void authenticateUser(){
+    private void authenticateUser() {
 
         progressBar.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
-        if (mCurrentUser == null){
-            mAuth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
+        if (mCurrentUser == null) {
+            mAuth.signInAnonymously().addOnCompleteListener(task -> {
 
-                    progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
 
-                    if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
-                        new downloadScriptures().execute();
+                    new downloadScriptures().execute();
 
-                    }
-                    else {
+                } else {
 
-                        Toast.makeText(BooksOfTheBible.this, "Initial setup of app failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BooksOfTheBible.this, "Initial setup of app failed", Toast.LENGTH_LONG).show();
 
-                    }
                 }
             });
         } else {
+            progressBar.setVisibility(View.INVISIBLE);
             new downloadScriptures().execute();
         }
 
