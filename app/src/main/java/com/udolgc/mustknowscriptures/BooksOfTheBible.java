@@ -376,7 +376,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(BooksOfTheBible.this, "Scripture download unsuccessful", Toast.LENGTH_LONG).show();
+                            showRetryAlertDialog(getString(R.string.oops), getString(R.string.download_unsuccessful_dialog), getString(R.string.retry), getString(R.string.cancel));
 
                         }
                     });
@@ -391,65 +391,64 @@ public class BooksOfTheBible extends AppCompatActivity {
     }
 
 
-    private void fetchScripturesTest() {
-
-        System.out.println("fetch scriptures test");
-        List<ScriptureEntity> listTest = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        try {
-
-            System.out.println("try");
-
-            db.collection("French")
-                    .orderBy("timestamp")
-                    .get()
-                    .addOnCompleteListener(task -> {
-
-                        System.out.println("oncompletetest");
-
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
-
-//                                System.out.println(documentSnapshot.getData());
-                                System.out.println("getId: " + documentSnapshot.getId());
-
-                                String bookName = documentSnapshot.getId();
-
-                                for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
-
-
-
-                                    System.out.println("entry.getkey(): " + entry.getKey());
-//                                    System.out.println("entry.getentry(): " + entry.getValue());
-
-
-                                    listTest.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
-
-                                }
-
-                            }
-                            System.out.println("batch insert test");
-//                            System.out.println(listTest.removeIf(s -> s.equals("acbd"));
-//                            dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
-                            statusEnglish = 200;
-
-                            System.out.println("done with test");
-                        } else {
-
-                            statusEnglish = 400;
-
-                        }
-
-
-                    });
-
-        } catch (Exception ex) {
-            progress.cancel();
-            showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok));
-            System.out.println("exception: " + ex.getMessage());
-        }
-
-    }
+//    private void fetchScripturesTest() {
+//
+//        System.out.println("fetch scriptures test");
+//        List<ScriptureEntity> listTest = new ArrayList<>();
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        try {
+//
+//            System.out.println("try");
+//
+//            db.collection("French")
+//                    .orderBy("timestamp")
+//                    .get()
+//                    .addOnCompleteListener(task -> {
+//
+//                        System.out.println("oncompletetest");
+//
+//                        if (task.isSuccessful()) {
+//                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
+//
+////                                System.out.println(documentSnapshot.getData());
+//                                System.out.println("getId: " + documentSnapshot.getId());
+//
+//                                String bookName = documentSnapshot.getId();
+//
+//                                for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+//
+//
+//                                    System.out.println("entry.getkey(): " + entry.getKey());
+////                                    System.out.println("entry.getentry(): " + entry.getValue());
+//
+//
+//                                    listTest.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
+//
+//                                }
+//
+//                            }
+//                            System.out.println("batch insert test");
+////                            System.out.println(listTest.removeIf(s -> s.equals("acbd"));
+////                            dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
+//                            statusEnglish = 200;
+//
+//                            System.out.println("done with test");
+//                        } else {
+//
+//                            statusEnglish = 400;
+//
+//                        }
+//
+//
+//                    });
+//
+//        } catch (Exception ex) {
+//            progress.cancel();
+//            showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok));
+//            System.out.println("exception: " + ex.getMessage());
+//        }
+//
+//    }
 
     public class downloadScriptures extends AsyncTask<Void, Void, Void> {
 
@@ -480,7 +479,6 @@ public class BooksOfTheBible extends AppCompatActivity {
             }
 
 
-
             return null;
         }
 
@@ -504,18 +502,21 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     private void authenticateUser() {
 
+        System.out.println("authenticateUser");
+
         progressBar.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
 
         if (mCurrentUser == null) {
+
             mAuth.signInAnonymously().addOnCompleteListener(task -> {
 
                 progressBar.setVisibility(View.INVISIBLE);
 
                 if (task.isSuccessful()) {
-
+                    System.out.println("task.isSuccessful()");
                     new downloadScriptures().execute();
 
                 } else {
@@ -530,7 +531,6 @@ public class BooksOfTheBible extends AppCompatActivity {
         }
 
     }
-
 
 
     public void exitApp() {
@@ -609,6 +609,25 @@ public class BooksOfTheBible extends AppCompatActivity {
         builder.setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
+                    dialogInterface.dismiss();
+                })
+                .create()
+                .show();
+
+    }
+
+    public void showRetryAlertDialog(String title, String message, String positiveButtonText, String negativeButtonText) {
+
+        Context context = this;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
+                    new downloadScriptures().execute();
+                    dialogInterface.dismiss();
+                })
+                .setNegativeButton(negativeButtonText, (dialogInterface, id) -> {
                     dialogInterface.dismiss();
                 })
                 .create()
