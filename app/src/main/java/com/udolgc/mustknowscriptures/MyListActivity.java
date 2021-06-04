@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import adapters.SampleAdapter;
+import utils.UtilityManager;
 
 import static com.udolgc.mustknowscriptures.BooksOfTheBible.scriptureByBook;
 
@@ -31,6 +32,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     SampleAdapter myAdapter;
     TextToSpeech textToSpeech;
     RelativeLayout relativeLayout;
+    UtilityManager utilityManager = new UtilityManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
         myAdapter = new SampleAdapter(myList, MyListActivity.this);
         recyclerView.setAdapter(myAdapter);
 
-        textToSpeech = new TextToSpeech(this, this);
+        textToSpeech = new TextToSpeech(this, this, "com.google.android.tts");
 
     }
 
@@ -75,7 +77,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     public void checkFavourites() {
 
         try {
-            if (scriptureList.isEmpty()) {
+            if (scriptureList != null && scriptureList.isEmpty()) {
                 relativeLayout.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.INVISIBLE);
             }
@@ -124,7 +126,9 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     public void onInit(int status) {
 
         if (status == TextToSpeech.SUCCESS) {
-            int result = textToSpeech.setLanguage(Locale.US);
+//            textToSpeech.eng
+//            int result = textToSpeech.setLanguage(Locale.FRANCE);
+            int result = utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? textToSpeech.setLanguage(Locale.US) : textToSpeech.setLanguage(Locale.FRANCE);
 
             System.out.println("result: " + result);
 

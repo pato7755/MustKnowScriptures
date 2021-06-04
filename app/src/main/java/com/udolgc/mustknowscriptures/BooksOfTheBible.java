@@ -135,6 +135,8 @@ public class BooksOfTheBible extends AppCompatActivity {
 
         populateMenus();
 
+//        fetchScripturesTest();
+
     }
 
     public void initViews() {
@@ -299,6 +301,7 @@ public class BooksOfTheBible extends AppCompatActivity {
                         }
 
                         try {
+
                             System.out.println("fetchScripturesFrench");
                             fetchScripturesFrench();
 
@@ -366,6 +369,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                         if (dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)) > 0) {
 
+//                            progress.cancel();
                             Toast.makeText(BooksOfTheBible.this, "Downloaded scriptures successfully", Toast.LENGTH_LONG).show();
                             System.out.println("number of records: " + dbHandler.getScriptureCount(utilityManager.getSharedPreference(UtilityManager.LANGUAGE)));
                             utilityManager.setBooleanPreferences(UtilityManager.SETUP_DONE, true);
@@ -386,6 +390,66 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     }
 
+
+    private void fetchScripturesTest() {
+
+        System.out.println("fetch scriptures test");
+        List<ScriptureEntity> listTest = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try {
+
+            System.out.println("try");
+
+            db.collection("French")
+                    .orderBy("timestamp")
+                    .get()
+                    .addOnCompleteListener(task -> {
+
+                        System.out.println("oncompletetest");
+
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot documentSnapshot : task.getResult()) {
+
+//                                System.out.println(documentSnapshot.getData());
+                                System.out.println("getId: " + documentSnapshot.getId());
+
+                                String bookName = documentSnapshot.getId();
+
+                                for (Map.Entry<String, Object> entry : documentSnapshot.getData().entrySet()) {
+
+
+
+                                    System.out.println("entry.getkey(): " + entry.getKey());
+//                                    System.out.println("entry.getentry(): " + entry.getValue());
+
+
+                                    listTest.add(new ScriptureEntity(entry.getKey(), entry.getValue().toString(), bookName, ""));
+
+                                }
+
+                            }
+                            System.out.println("batch insert test");
+//                            System.out.println(listTest.removeIf(s -> s.equals("acbd"));
+//                            dbHandler.batchInsertScriptures(listEnglish, UtilityManager.ENGLISH);
+                            statusEnglish = 200;
+
+                            System.out.println("done with test");
+                        } else {
+
+                            statusEnglish = 400;
+
+                        }
+
+
+                    });
+
+        } catch (Exception ex) {
+            progress.cancel();
+            showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok));
+            System.out.println("exception: " + ex.getMessage());
+        }
+
+    }
 
     public class downloadScriptures extends AsyncTask<Void, Void, Void> {
 
@@ -456,7 +520,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(BooksOfTheBible.this, "Initial setup of app failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(BooksOfTheBible.this, "Initial setup failed", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -472,35 +536,31 @@ public class BooksOfTheBible extends AppCompatActivity {
     public void exitApp() {
         try {
 
-            runOnUiThread(new Runnable() {
+            runOnUiThread(() -> {
+                // TODO Auto-generated method stub
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(BooksOfTheBible.this);
+                alertDialog.setTitle("Confirm exit");
+                alertDialog.setMessage("Do you want to exit app?");
 
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(BooksOfTheBible.this);
-                    alertDialog.setTitle("Confirm exit");
-                    alertDialog.setMessage("Do you want to exit app?");
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                BooksOfTheBible.super.onBackPressed();
+                            }
+                        });
+                // Setting Negative "NO" Btn
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
 
-                    alertDialog.setPositiveButton("YES",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                    BooksOfTheBible.super.onBackPressed();
-                                }
-                            });
-                    // Setting Negative "NO" Btn
-                    alertDialog.setNegativeButton("NO",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Write your code here to execute after dialog
+                                dialog.cancel();
 
-                                    dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
 
-                                }
-                            });
-                    alertDialog.show();
-
-                }
             });
 
         } catch (Exception e) {
