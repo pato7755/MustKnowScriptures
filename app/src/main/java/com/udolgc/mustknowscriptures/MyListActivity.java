@@ -47,10 +47,10 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
 
         checkFavourites();
 
-        if (scriptureList.isEmpty()) {
-            relativeLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
-        }
+//        if (scriptureList.isEmpty()) {
+//            relativeLayout.setVisibility(View.VISIBLE);
+//            recyclerView.setVisibility(View.INVISIBLE);
+//        }
 
         for (ScriptureEntity scriptureEntity : scriptureList) {
 

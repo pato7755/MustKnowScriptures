@@ -116,7 +116,7 @@ public class BooksOfTheBible extends AppCompatActivity {
         setContentView(R.layout.books);
 
         initViews();
-
+//        throw new RuntimeException("Test Crash"); // Force a crash
         dbHandler = new DatabaseHandler(BooksOfTheBible.this);
 
         if (!utilityManager.getBooleanSharedPreference(UtilityManager.SETUP_DONE)) {
