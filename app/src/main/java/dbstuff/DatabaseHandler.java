@@ -14,7 +14,7 @@ import java.util.List;
 import utils.UtilityManager;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "SCRIPTURE_DB";
     private static final String SCRIPTURE_TABLE = "tb_scripture_";
     private static final String KEY_ID = "id";
@@ -33,6 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println("onCreate databases");
         String CREATE_SCRIPTURE_TABLE_ENGLISH = "CREATE TABLE " + SCRIPTURE_TABLE.concat(UtilityManager.ENGLISH)+ "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
@@ -46,9 +47,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_BOOK + " TEXT,"
                 + KEY_FAV + " TEXT" + ") ";
 
-        db.execSQL(CREATE_SCRIPTURE_TABLE_ENGLISH);
-        db.execSQL(CREATE_SCRIPTURE_TABLE_FRENCH);
+        System.out.println(CREATE_SCRIPTURE_TABLE_ENGLISH);
+        System.out.println(CREATE_SCRIPTURE_TABLE_FRENCH);
 
+        try {
+            db.execSQL(CREATE_SCRIPTURE_TABLE_ENGLISH);
+        } catch (Exception exception){
+            System.out.println("exception: " + exception.getMessage());
+        }
+        try {
+            db.execSQL(CREATE_SCRIPTURE_TABLE_FRENCH);
+        } catch (Exception exception){
+            System.out.println("exception: " + exception.getMessage());
+        }
     }
 
     // Upgrading database

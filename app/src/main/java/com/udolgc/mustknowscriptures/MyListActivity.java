@@ -63,6 +63,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
         recyclerView.setAdapter(myAdapter);
 
         textToSpeech = new TextToSpeech(this, this, "com.google.android.tts");
+//        textToSpeech.getFeatures()
 
     }
 
@@ -126,17 +127,14 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
     public void onInit(int status) {
 
         if (status == TextToSpeech.SUCCESS) {
-//            textToSpeech.eng
-//            int result = textToSpeech.setLanguage(Locale.FRANCE);
-            int result = utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? textToSpeech.setLanguage(Locale.US) : textToSpeech.setLanguage(Locale.FRANCE);
 
+            int result = utilityManager.getSharedPreference(UtilityManager.LANGUAGE).equals("English") ? textToSpeech.setLanguage(Locale.US) : textToSpeech.setLanguage(Locale.FRANCE);
             System.out.println("result: " + result);
 
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Toast.makeText(getApplicationContext(), "Language not supported", Toast.LENGTH_SHORT).show();
             } else {
-//                button.setEnabled(true);
                 System.out.println("Language is supported");
 
                 textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
