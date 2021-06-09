@@ -47,6 +47,8 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
 
         checkFavourites();
 
+        System.out.println("onCreate - play flag: " + SampleAdapter.playFlag);
+
 //        if (scriptureList.isEmpty()) {
 //            relativeLayout.setVisibility(View.VISIBLE);
 //            recyclerView.setVisibility(View.INVISIBLE);
@@ -62,7 +64,15 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
         myAdapter = new SampleAdapter(myList, MyListActivity.this);
         recyclerView.setAdapter(myAdapter);
 
-        textToSpeech = new TextToSpeech(this, this, "com.google.android.tts");
+
+
+        new Thread() {
+            public void run() {
+//                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
+                textToSpeech = new TextToSpeech(MyListActivity.this, MyListActivity.this, "com.google.android.tts");
+//                textToSpeech.sy
+            }
+        }.start();
 //        textToSpeech.getFeatures()
 
     }
@@ -180,7 +190,7 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
             }
 
         } else {
-            Toast.makeText(getApplicationContext(), "Init failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Text to speech Initialisation failed", Toast.LENGTH_SHORT).show();
             System.out.println("Init failed");
         }
 
@@ -224,6 +234,8 @@ public class MyListActivity extends AppCompatActivity implements TextToSpeech.On
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+        SampleAdapter.playFlag = false;
+//        System.out.println("onDestroy - play flag: " + SampleAdapter.playFlag);
         super.onDestroy();
     }
 
