@@ -10,10 +10,12 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.udolgc.mustknowscriptures.R;
-import com.wajahatkarim3.easyflipview.EasyFlipView;
+//import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.util.HashMap;
 import java.util.List;
+
+import utils.EasyFlipView;
 
 public class CardAdapter extends SimpleAdapter {
 

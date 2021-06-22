@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/hint"
             android:src="@drawable/ic_no_fav"
-            android:tint="@color/gold" />
+            app:tint="@color/gold" />
 
         <TextView
             android:id="@+id/textview"

@@ -17,13 +17,14 @@ import com.udolgc.mustknowscriptures.MustKnow;
 import com.udolgc.mustknowscriptures.MyListActivity;
 import com.udolgc.mustknowscriptures.R;
 import com.udolgc.mustknowscriptures.ScriptureEntity;
-import com.wajahatkarim3.easyflipview.EasyFlipView;
+//import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import dbstuff.DatabaseHandler;
+import utils.EasyFlipView;
 import utils.UtilityManager;
 
 public class SampleAdapter extends RecyclerView.Adapter<SampleAdapter.MyViewHolder> /*implements TextToSpeech.OnInitListener*/ {

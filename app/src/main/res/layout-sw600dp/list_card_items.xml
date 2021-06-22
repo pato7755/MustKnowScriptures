@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.wajahatkarim3.easyflipview.EasyFlipView
+    <utils.EasyFlipView
         android:id="@+id/flip_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
                 android:src="@drawable/rectangle"
-                android:tint="@color/cardFront" />
+                app:tint="@color/cardFront" />
 
 
             <RelativeLayout
@@ -121,7 +121,7 @@
                 android:padding="16dp"
                 android:contentDescription=""
                 android:src="@drawable/rectangle"
-                android:tint="@color/cardFront" />
+                app:tint="@color/cardFront" />
 
             <TextView
                 android:id="@+id/frontcard_textview"
@@ -135,7 +135,7 @@
 
         </FrameLayout>
 
-    </com.wajahatkarim3.easyflipview.EasyFlipView>
+    </utils.EasyFlipView>
 
 
 </LinearLayout>
