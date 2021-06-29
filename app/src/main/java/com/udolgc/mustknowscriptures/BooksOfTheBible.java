@@ -124,6 +124,7 @@ public class BooksOfTheBible extends AppCompatActivity {
             utilityManager.setPreferences(UtilityManager.LANGUAGE, UtilityManager.ENGLISH);
 
             if (!checkInternetConnection.isNetworkAvailable(BooksOfTheBible.this)) {
+                if(!this.isFinishing())
                 showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.ok));
             } else {
                 authenticateUser();
@@ -603,7 +604,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     public void showAlertDialog(String title, String message, String positiveButtonText) {
 
-        Context context = this;
+        Context context = BooksOfTheBible.this;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title)
@@ -618,7 +619,7 @@ public class BooksOfTheBible extends AppCompatActivity {
 
     public void showRetryAlertDialog(String title, String message, String positiveButtonText, String negativeButtonText) {
 
-        Context context = this;
+        Context context = BooksOfTheBible.this;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title)

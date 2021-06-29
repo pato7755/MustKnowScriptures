@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.udolgc.mustknowscriptures.ScriptureEntity;
 
 import java.util.ArrayList;
@@ -54,11 +55,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.execSQL(CREATE_SCRIPTURE_TABLE_ENGLISH);
         } catch (Exception exception){
             System.out.println("exception: " + exception.getMessage());
+            FirebaseCrashlytics.getInstance().log("Failed to create " + CREATE_SCRIPTURE_TABLE_ENGLISH);
         }
         try {
             db.execSQL(CREATE_SCRIPTURE_TABLE_FRENCH);
         } catch (Exception exception){
             System.out.println("exception: " + exception.getMessage());
+            FirebaseCrashlytics.getInstance().log("Failed to create " + CREATE_SCRIPTURE_TABLE_FRENCH);
         }
     }
 

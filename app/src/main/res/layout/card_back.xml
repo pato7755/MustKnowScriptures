@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:tint="#f32bcc"
+        app:tint="@color/pink"
         android:padding="16dp"
         android:src="@drawable/rectangle"/>
 
